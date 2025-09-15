@@ -1,4 +1,4 @@
-// src/components/app-shell.ts
+// src/components/layout/app-shell.ts
 
 import { LitElement, html, css } from 'lit';
 
@@ -22,11 +22,11 @@ export class AppShell extends LitElement {
 
   render() {
     return html`
-      <h1>🌟 Padhang Huda</h1>
       <nav>
         <a href="/quran" @click=${this.navigate}>Qur’an</a>
         <a href="/hadith" @click=${this.navigate}>Hadith</a>
       </nav>
+      <h1>🌟 Padhang Huda</h1>
       <div id="outlet"></div>
     `;
   }

@@ -1,6 +1,6 @@
 // src/main.ts
 
-import './components/app-shell';
+import './components/layout/app-shell';
 import { HostContext } from './host-context';
 import { registerRoute, startRouter } from './router';
 import type { PluginManifest, PluginModule } from './plugin-contract';
@@ -20,7 +20,7 @@ async function loadPlugins() {
 
       console.log(`⏳ Loading plugin: ${p.name} from ${p.url}`);
       const mod: PluginModule = await import(
-        new URL(p.url, window.location.origin).href
+        new URL(/* @vite-ignore */ p.url, window.location.origin).href
       );
 
       if (!customElements.get(p.element)) {
