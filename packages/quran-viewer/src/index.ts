@@ -11,6 +11,11 @@ export default class QuranViewer extends LitElement {
       background: #f9f9f9;
       border: 1px solid #ddd;
       border-radius: 8px;
+      font-family: system-ui, sans-serif;
+    }
+    h2 {
+      margin-top: 0;
+      font-size: 1.25rem;
     }
     .ayah {
       font-size: 1.5rem;
@@ -35,26 +40,10 @@ export default class QuranViewer extends LitElement {
   }
 }
 
-export function init(_ctx: HostContext, { registerRoute }: any) {
-  console.log('📖 QuranViewer init called');
-
-  registerRoute('/quran', () => {
-    console.log('📌 Route handler /quran executed');
-
-    const appShell = document.querySelector('app-shell') as any;
-    if (!appShell) {
-      console.warn('⚠️ <app-shell> not found');
-      return;
-    }
-
-    const outlet = appShell.outlet; // gunakan getter dari app-shell
-    if (!outlet) {
-      console.warn('⚠️ #outlet not found in app-shell');
-      return;
-    }
-
-    console.log('🖼️ Rendering <quran-viewer> into #outlet');
-    outlet.innerHTML = '';
-    outlet.appendChild(document.createElement('quran-viewer'));
-  });
+/**
+ * Opsional init untuk integrasi non-routing (eventBus, theme, dsb.)
+ * Tidak lagi melakukan registerRoute manual.
+ */
+export function init(ctx: HostContext) {
+  console.log('📖 QuranViewer init dengan host version:', ctx.version);
 }

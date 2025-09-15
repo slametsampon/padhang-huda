@@ -2,7 +2,6 @@
 
 import { LitElement, html, css } from 'lit';
 import type { HostContext } from '../../../src/host-context';
-import type { PluginHelpers } from '../../../src/plugin-contract';
 
 export default class HadithViewer extends LitElement {
   static styles = css`
@@ -12,6 +11,11 @@ export default class HadithViewer extends LitElement {
       background: #f0f9ff;
       border: 1px solid #cce7f6;
       border-radius: 8px;
+      font-family: system-ui, sans-serif;
+    }
+    h2 {
+      margin-top: 0;
+      font-size: 1.25rem;
     }
     .arabic {
       font-size: 1.2rem;
@@ -33,14 +37,10 @@ export default class HadithViewer extends LitElement {
   }
 }
 
-export function init(_ctx: HostContext, { registerRoute }: PluginHelpers) {
-  console.log('📜 HadithViewer init called');
-  registerRoute('/hadith', () => {
-    const appShell = document.querySelector('app-shell') as any;
-    if (!appShell?.outlet) return;
-
-    appShell.outlet.innerHTML = '';
-    appShell.outlet.appendChild(document.createElement('hadith-viewer'));
-    console.log('✅ HadithViewer mounted at /hadith');
-  });
+/**
+ * Opsional init untuk integrasi non-routing (eventBus, theme, dll.)
+ * Tidak lagi mendaftarkan route manual.
+ */
+export function init(ctx: HostContext) {
+  console.log('📜 HadithViewer init dengan host version:', ctx.version);
 }

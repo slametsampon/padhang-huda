@@ -3,10 +3,10 @@
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const H = globalThis, k = H.ShadowRoot && (H.ShadyCSS === void 0 || H.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, L = Symbol(), I = /* @__PURE__ */ new WeakMap();
+const O = globalThis, k = O.ShadowRoot && (O.ShadyCSS === void 0 || O.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, z = Symbol(), I = /* @__PURE__ */ new WeakMap();
 let Y = class {
   constructor(t, e, s) {
-    if (this._$cssResult$ = !0, s !== L) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
+    if (this._$cssResult$ = !0, s !== z) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
     this.cssText = t, this.t = e;
   }
   get styleSheet() {
@@ -22,17 +22,17 @@ let Y = class {
     return this.cssText;
   }
 };
-const nt = (r) => new Y(typeof r == "string" ? r : r + "", void 0, L), ot = (r, ...t) => {
+const nt = (r) => new Y(typeof r == "string" ? r : r + "", void 0, z), ot = (r, ...t) => {
   const e = r.length === 1 ? r[0] : t.reduce(((s, i, n) => s + ((o) => {
     if (o._$cssResult$ === !0) return o.cssText;
     if (typeof o == "number") return o;
     throw Error("Value passed to 'css' function must be a 'css' function result: " + o + ". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.");
   })(i) + r[n + 1]), r[0]);
-  return new Y(e, r, L);
+  return new Y(e, r, z);
 }, ht = (r, t) => {
   if (k) r.adoptedStyleSheets = t.map(((e) => e instanceof CSSStyleSheet ? e : e.styleSheet));
   else for (const e of t) {
-    const s = document.createElement("style"), i = H.litNonce;
+    const s = document.createElement("style"), i = O.litNonce;
     i !== void 0 && s.setAttribute("nonce", i), s.textContent = e.cssText, r.appendChild(s);
   }
 }, V = k ? (r) => r : (r) => r instanceof CSSStyleSheet ? ((t) => {
@@ -262,11 +262,11 @@ g.elementStyles = [], g.shadowRootOptions = { mode: "open" }, g[S("elementProper
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const z = globalThis, O = z.trustedTypes, J = O ? O.createPolicy("lit-html", { createHTML: (r) => r }) : void 0, et = "$lit$", _ = `lit$${Math.random().toFixed(9).slice(2)}$`, st = "?" + _, ft = `<${st}>`, m = document, w = () => m.createComment(""), C = (r) => r === null || typeof r != "object" && typeof r != "function", D = Array.isArray, At = (r) => D(r) || typeof r?.[Symbol.iterator] == "function", N = `[ 	
+const D = globalThis, H = D.trustedTypes, J = H ? H.createPolicy("lit-html", { createHTML: (r) => r }) : void 0, et = "$lit$", _ = `lit$${Math.random().toFixed(9).slice(2)}$`, st = "?" + _, ft = `<${st}>`, m = document, w = () => m.createComment(""), C = (r) => r === null || typeof r != "object" && typeof r != "function", L = Array.isArray, At = (r) => L(r) || typeof r?.[Symbol.iterator] == "function", N = `[ 	
 \f\r]`, E = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, K = /-->/g, Z = />/g, f = RegExp(`>|${N}(?:([^\\s"'>=/]+)(${N}*=${N}*(?:[^ 	
 \f\r"'\`<>=]|("|')|))|$)`, "g"), F = /'/g, G = /"/g, it = /^(?:script|style|textarea|title)$/i, mt = (r) => (t, ...e) => ({ _$litType$: r, strings: t, values: e }), gt = mt(1), y = Symbol.for("lit-noChange"), d = Symbol.for("lit-nothing"), Q = /* @__PURE__ */ new WeakMap(), A = m.createTreeWalker(m, 129);
 function rt(r, t) {
-  if (!D(r) || !r.hasOwnProperty("raw")) throw Error("invalid template strings array");
+  if (!L(r) || !r.hasOwnProperty("raw")) throw Error("invalid template strings array");
   return J !== void 0 ? J.createHTML(t) : t;
 }
 const yt = (r, t) => {
@@ -300,7 +300,7 @@ class P {
         if (it.test(i.tagName)) {
           const a = i.textContent.split(_), u = a.length - 1;
           if (u > 0) {
-            i.textContent = O ? O.emptyScript : "";
+            i.textContent = H ? H.emptyScript : "";
             for (let $ = 0; $ < u; $++) i.append(a[$], w()), A.nextNode(), h.push({ type: 2, index: ++n });
             i.append(a[u], w());
           }
@@ -395,7 +395,7 @@ class x {
     return e === void 0 && Q.set(t.strings, e = new P(t)), e;
   }
   k(t) {
-    D(this._$AH) || (this._$AH = [], this._$AR());
+    L(this._$AH) || (this._$AH = [], this._$AR());
     const e = this._$AH;
     let s, i = 0;
     for (const n of t) i === e.length ? e.push(s = new x(this.O(w()), this.O(w()), this, this.options)) : s = e[i], s._$AI(n), i++;
@@ -476,8 +476,8 @@ class wt {
     v(this, t);
   }
 }
-const Ct = z.litHtmlPolyfillSupport;
-Ct?.(P, x), (z.litHtmlVersions ??= []).push("3.3.1");
+const Ct = D.litHtmlPolyfillSupport;
+Ct?.(P, x), (D.litHtmlVersions ??= []).push("3.3.1");
 const Pt = (r, t, e) => {
   const s = e?.renderBefore ?? t;
   let i = s._$litPart$;
@@ -535,6 +535,11 @@ B.styles = ot`
       background: #f0f9ff;
       border: 1px solid #cce7f6;
       border-radius: 8px;
+      font-family: system-ui, sans-serif;
+    }
+    h2 {
+      margin-top: 0;
+      font-size: 1.25rem;
     }
     .arabic {
       font-size: 1.2rem;
@@ -547,13 +552,10 @@ B.styles = ot`
     }
   `;
 let X = B;
-function Ot(r, { registerRoute: t }) {
-  console.log("📜 HadithViewer init called"), t("/hadith", () => {
-    const e = document.querySelector("app-shell");
-    e?.outlet && (e.outlet.innerHTML = "", e.outlet.appendChild(document.createElement("hadith-viewer")), console.log("✅ HadithViewer mounted at /hadith"));
-  });
+function Ht(r) {
+  console.log("📜 HadithViewer init dengan host version:", r.version);
 }
 export {
   X as default,
-  Ot as init
+  Ht as init
 };

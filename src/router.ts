@@ -1,34 +1,20 @@
 // src/router.ts
 
-export type RouteHandler = (params?: Record<string, string>) => void;
+import { Router } from '@vaadin/router';
+import type { Route } from '@vaadin/router';
+import './components/views/not-found-view';
 
-const routes: Record<string, RouteHandler> = {};
+let router: Router | null = null;
 
-export function registerRoute(path: string, handler: RouteHandler) {
-  console.log(`📝 Route registered: ${path}`);
-  routes[path] = handler;
+export function initRouter(outlet: HTMLElement) {
+  router = new Router(outlet);
 }
 
-export function startRouter() {
-  window.addEventListener('popstate', () => {
-    handleRoute(location.pathname);
-  });
-  handleRoute(location.pathname);
-}
-
-function handleRoute(path: string) {
-  console.log(`➡️ Navigating to: ${path}`);
-  const handler = routes[path];
-  if (handler) {
-    console.log(`✅ Handler found for: ${path}`);
-    handler();
-  } else {
-    if (path === '/') {
-      console.log('🔀 Fallback: redirecting / → /quran');
-      window.history.replaceState({}, '', '/quran');
-      handleRoute('/quran');
-    } else {
-      console.warn('⚠️ Route not found:', path);
-    }
-  }
+export function setRoutes(routes: Route[]) {
+  if (!router) throw new Error('Router not initialized');
+  router.setRoutes([
+    ...routes,
+    { path: '/', redirect: '/quran' },
+    { path: '(.*)', component: 'not-found-view' },
+  ]);
 }

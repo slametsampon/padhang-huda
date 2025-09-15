@@ -1,7 +1,12 @@
 // src/components/layout/app-shell.ts
 
 import { LitElement, html, css } from 'lit';
-
+import './app-header';
+import './app-nav';
+import './app-main';
+import './app-footer';
+//import './test-clean';
+//import './test-component';
 export class AppShell extends LitElement {
   static styles = css`
     :host {
@@ -22,26 +27,15 @@ export class AppShell extends LitElement {
 
   render() {
     return html`
-      <nav>
-        <a href="/quran" @click=${this.navigate}>Qur’an</a>
-        <a href="/hadith" @click=${this.navigate}>Hadith</a>
-      </nav>
-      <h1>🌟 Padhang Huda</h1>
+      <app-nav></app-nav>
+      <app-header></app-header>
       <div id="outlet"></div>
+      <app-footer></app-footer>
     `;
   }
 
   get outlet() {
     return this.renderRoot.querySelector('#outlet');
-  }
-
-  private navigate(e: Event) {
-    e.preventDefault();
-    const target = e.currentTarget as HTMLAnchorElement;
-    if (target?.href) {
-      window.history.pushState({}, '', target.pathname);
-      window.dispatchEvent(new PopStateEvent('popstate'));
-    }
   }
 }
 

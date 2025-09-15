@@ -1,8 +1,9 @@
 // src/main.ts
 
 import './components/layout/app-shell';
+import './components/views/not-found-view'; // pastikan not-found tersedia
 import { HostContext } from './host-context';
-import { registerRoute, startRouter } from './router';
+import { initRouter, setRoutes } from './router';
 import type { PluginManifest, PluginModule } from './plugin-contract';
 
 async function loadPlugins() {
@@ -10,6 +11,8 @@ async function loadPlugins() {
   const res = await fetch('/plugins.json');
   const plugins: PluginManifest[] = await res.json();
   console.log('📦 Plugins registry loaded:', plugins);
+
+  const allRoutes = [];
 
   for (const p of plugins) {
     try {
@@ -28,8 +31,14 @@ async function loadPlugins() {
         customElements.define(p.element, mod.default);
       }
 
+      if (p.routes) {
+        for (const r of p.routes) {
+          allRoutes.push({ path: r.path, component: r.component });
+        }
+      }
+
       if (mod.init) {
-        mod.init(HostContext, { registerRoute });
+        await mod.init(HostContext);
       }
 
       console.info(`✅ Plugin loaded: ${p.name}`);
@@ -37,8 +46,24 @@ async function loadPlugins() {
       console.error(`❌ Failed to load plugin ${p.name}`, err);
     }
   }
+
+  return allRoutes;
 }
 
-loadPlugins().then(() => {
-  startRouter();
-});
+(async () => {
+  // ✅ Pastikan app-shell sudah siap sebelum cari outlet
+  await customElements.whenDefined('app-shell');
+
+  const appShell = document.querySelector('app-shell');
+  const outlet = appShell?.shadowRoot?.querySelector(
+    '#outlet'
+  ) as HTMLElement | null;
+
+  if (!outlet) throw new Error('❌ Outlet not found in <app-shell>');
+
+  initRouter(outlet);
+
+  const routes = await loadPlugins();
+  console.log('✅ Routes configured:', routes);
+  setRoutes(routes);
+})();

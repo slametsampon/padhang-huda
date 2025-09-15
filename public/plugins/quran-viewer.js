@@ -3,7 +3,7 @@
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const H = globalThis, k = H.ShadowRoot && (H.ShadyCSS === void 0 || H.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, z = Symbol(), I = /* @__PURE__ */ new WeakMap();
+const O = globalThis, k = O.ShadowRoot && (O.ShadyCSS === void 0 || O.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, z = Symbol(), I = /* @__PURE__ */ new WeakMap();
 let X = class {
   constructor(t, e, s) {
     if (this._$cssResult$ = !0, s !== z) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
@@ -32,10 +32,10 @@ const nt = (r) => new X(typeof r == "string" ? r : r + "", void 0, z), ot = (r, 
 }, ht = (r, t) => {
   if (k) r.adoptedStyleSheets = t.map(((e) => e instanceof CSSStyleSheet ? e : e.styleSheet));
   else for (const e of t) {
-    const s = document.createElement("style"), i = H.litNonce;
+    const s = document.createElement("style"), i = O.litNonce;
     i !== void 0 && s.setAttribute("nonce", i), s.textContent = e.cssText, r.appendChild(s);
   }
-}, q = k ? (r) => r : (r) => r instanceof CSSStyleSheet ? ((t) => {
+}, V = k ? (r) => r : (r) => r instanceof CSSStyleSheet ? ((t) => {
   let e = "";
   for (const s of t.cssRules) e += s.cssText;
   return nt(e);
@@ -45,7 +45,7 @@ const nt = (r) => new X(typeof r == "string" ? r : r + "", void 0, z), ot = (r, 
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const { is: at, defineProperty: lt, getOwnPropertyDescriptor: ct, getOwnPropertyNames: dt, getOwnPropertySymbols: pt, getPrototypeOf: ut } = Object, O = globalThis, V = O.trustedTypes, $t = V ? V.emptyScript : "", _t = O.reactiveElementPolyfillSupport, S = (r, t) => r, R = { toAttribute(r, t) {
+const { is: at, defineProperty: lt, getOwnPropertyDescriptor: ct, getOwnPropertyNames: dt, getOwnPropertySymbols: pt, getPrototypeOf: ut } = Object, M = globalThis, W = M.trustedTypes, $t = W ? W.emptyScript : "", _t = M.reactiveElementPolyfillSupport, S = (r, t) => r, R = { toAttribute(r, t) {
   switch (t) {
     case Boolean:
       r = r ? $t : null;
@@ -73,16 +73,16 @@ const { is: at, defineProperty: lt, getOwnPropertyDescriptor: ct, getOwnProperty
       }
   }
   return e;
-} }, tt = (r, t) => !at(r, t), W = { attribute: !0, type: String, converter: R, reflect: !1, useDefault: !1, hasChanged: tt };
-Symbol.metadata ??= Symbol("metadata"), O.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
-let m = class extends HTMLElement {
+} }, tt = (r, t) => !at(r, t), q = { attribute: !0, type: String, converter: R, reflect: !1, useDefault: !1, hasChanged: tt };
+Symbol.metadata ??= Symbol("metadata"), M.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
+let g = class extends HTMLElement {
   static addInitializer(t) {
     this._$Ei(), (this.l ??= []).push(t);
   }
   static get observedAttributes() {
     return this.finalize(), this._$Eh && [...this._$Eh.keys()];
   }
-  static createProperty(t, e = W) {
+  static createProperty(t, e = q) {
     if (e.state && (e.attribute = !1), this._$Ei(), this.prototype.hasOwnProperty(t) && ((e = Object.create(e)).wrapped = !0), this.elementProperties.set(t, e), !e.noAccessor) {
       const s = Symbol(), i = this.getPropertyDescriptor(t, s, e);
       i !== void 0 && lt(this.prototype, t, i);
@@ -100,7 +100,7 @@ let m = class extends HTMLElement {
     }, configurable: !0, enumerable: !0 };
   }
   static getPropertyOptions(t) {
-    return this.elementProperties.get(t) ?? W;
+    return this.elementProperties.get(t) ?? q;
   }
   static _$Ei() {
     if (this.hasOwnProperty(S("elementProperties"))) return;
@@ -129,8 +129,8 @@ let m = class extends HTMLElement {
     const e = [];
     if (Array.isArray(t)) {
       const s = new Set(t.flat(1 / 0).reverse());
-      for (const i of s) e.unshift(q(i));
-    } else t !== void 0 && e.push(q(t));
+      for (const i of s) e.unshift(V(i));
+    } else t !== void 0 && e.push(V(t));
     return e;
   }
   static _$Eu(t, e) {
@@ -256,15 +256,15 @@ let m = class extends HTMLElement {
   firstUpdated(t) {
   }
 };
-m.elementStyles = [], m.shadowRootOptions = { mode: "open" }, m[S("elementProperties")] = /* @__PURE__ */ new Map(), m[S("finalized")] = /* @__PURE__ */ new Map(), _t?.({ ReactiveElement: m }), (O.reactiveElementVersions ??= []).push("2.1.1");
+g.elementStyles = [], g.shadowRootOptions = { mode: "open" }, g[S("elementProperties")] = /* @__PURE__ */ new Map(), g[S("finalized")] = /* @__PURE__ */ new Map(), _t?.({ ReactiveElement: g }), (M.reactiveElementVersions ??= []).push("2.1.1");
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const D = globalThis, M = D.trustedTypes, J = M ? M.createPolicy("lit-html", { createHTML: (r) => r }) : void 0, et = "$lit$", _ = `lit$${Math.random().toFixed(9).slice(2)}$`, st = "?" + _, ft = `<${st}>`, g = document, w = () => g.createComment(""), C = (r) => r === null || typeof r != "object" && typeof r != "function", L = Array.isArray, At = (r) => L(r) || typeof r?.[Symbol.iterator] == "function", N = `[ 	
+const D = globalThis, H = D.trustedTypes, J = H ? H.createPolicy("lit-html", { createHTML: (r) => r }) : void 0, et = "$lit$", _ = `lit$${Math.random().toFixed(9).slice(2)}$`, st = "?" + _, ft = `<${st}>`, m = document, w = () => m.createComment(""), C = (r) => r === null || typeof r != "object" && typeof r != "function", L = Array.isArray, At = (r) => L(r) || typeof r?.[Symbol.iterator] == "function", N = `[ 	
 \f\r]`, E = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, K = /-->/g, Z = />/g, f = RegExp(`>|${N}(?:([^\\s"'>=/]+)(${N}*=${N}*(?:[^ 	
-\f\r"'\`<>=]|("|')|))|$)`, "g"), F = /'/g, Y = /"/g, it = /^(?:script|style|textarea|title)$/i, gt = (r) => (t, ...e) => ({ _$litType$: r, strings: t, values: e }), mt = gt(1), y = Symbol.for("lit-noChange"), d = Symbol.for("lit-nothing"), G = /* @__PURE__ */ new WeakMap(), A = g.createTreeWalker(g, 129);
+\f\r"'\`<>=]|("|')|))|$)`, "g"), F = /'/g, Y = /"/g, it = /^(?:script|style|textarea|title)$/i, mt = (r) => (t, ...e) => ({ _$litType$: r, strings: t, values: e }), gt = mt(1), y = Symbol.for("lit-noChange"), d = Symbol.for("lit-nothing"), G = /* @__PURE__ */ new WeakMap(), A = m.createTreeWalker(m, 129);
 function rt(r, t) {
   if (!L(r) || !r.hasOwnProperty("raw")) throw Error("invalid template strings array");
   return J !== void 0 ? J.createHTML(t) : t;
@@ -300,7 +300,7 @@ class P {
         if (it.test(i.tagName)) {
           const a = i.textContent.split(_), u = a.length - 1;
           if (u > 0) {
-            i.textContent = M ? M.emptyScript : "";
+            i.textContent = H ? H.emptyScript : "";
             for (let $ = 0; $ < u; $++) i.append(a[$], w()), A.nextNode(), h.push({ type: 2, index: ++n });
             i.append(a[u], w());
           }
@@ -314,7 +314,7 @@ class P {
     }
   }
   static createElement(t, e) {
-    const s = g.createElement("template");
+    const s = m.createElement("template");
     return s.innerHTML = t, s;
   }
 }
@@ -335,7 +335,7 @@ class vt {
     return this._$AM._$AU;
   }
   u(t) {
-    const { el: { content: e }, parts: s } = this._$AD, i = (t?.creationScope ?? g).importNode(e, !0);
+    const { el: { content: e }, parts: s } = this._$AD, i = (t?.creationScope ?? m).importNode(e, !0);
     A.currentNode = i;
     let n = A.nextNode(), o = 0, l = 0, h = s[0];
     for (; h !== void 0; ) {
@@ -345,7 +345,7 @@ class vt {
       }
       o !== h?.index && (n = A.nextNode(), o++);
     }
-    return A.currentNode = g, i;
+    return A.currentNode = m, i;
   }
   p(t) {
     let e = 0;
@@ -380,7 +380,7 @@ class x {
     this._$AH !== t && (this._$AR(), this._$AH = this.O(t));
   }
   _(t) {
-    this._$AH !== d && C(this._$AH) ? this._$AA.nextSibling.data = t : this.T(g.createTextNode(t)), this._$AH = t;
+    this._$AH !== d && C(this._$AH) ? this._$AA.nextSibling.data = t : this.T(m.createTextNode(t)), this._$AH = t;
   }
   $(t) {
     const { values: e, _$litType$: s } = t, i = typeof s == "number" ? this._$AC(t) : (s.el === void 0 && (s.el = P.createElement(rt(s.h, s.h[0]), this.options)), s);
@@ -493,7 +493,7 @@ const Pt = (r, t, e) => {
  * SPDX-License-Identifier: BSD-3-Clause
  */
 const j = globalThis;
-class b extends m {
+class b extends g {
   constructor() {
     super(...arguments), this.renderOptions = { host: this }, this._$Do = void 0;
   }
@@ -521,7 +521,7 @@ xt?.({ LitElement: b });
 (j.litElementVersions ??= []).push("4.2.1");
 const B = class B extends b {
   render() {
-    return mt`
+    return gt`
       <h2>📖 Qur’an Viewer</h2>
       <div class="ayah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
       <div class="translation">
@@ -537,6 +537,11 @@ B.styles = ot`
       background: #f9f9f9;
       border: 1px solid #ddd;
       border-radius: 8px;
+      font-family: system-ui, sans-serif;
+    }
+    h2 {
+      margin-top: 0;
+      font-size: 1.25rem;
     }
     .ayah {
       font-size: 1.5rem;
@@ -550,23 +555,10 @@ B.styles = ot`
     }
   `;
 let Q = B;
-function Mt(r, { registerRoute: t }) {
-  console.log("📖 QuranViewer init called"), t("/quran", () => {
-    console.log("📌 Route handler /quran executed");
-    const e = document.querySelector("app-shell");
-    if (!e) {
-      console.warn("⚠️ <app-shell> not found");
-      return;
-    }
-    const s = e.outlet;
-    if (!s) {
-      console.warn("⚠️ #outlet not found in app-shell");
-      return;
-    }
-    console.log("🖼️ Rendering <quran-viewer> into #outlet"), s.innerHTML = "", s.appendChild(document.createElement("quran-viewer"));
-  });
+function Ht(r) {
+  console.log("📖 QuranViewer init dengan host version:", r.version);
 }
 export {
   Q as default,
-  Mt as init
+  Ht as init
 };

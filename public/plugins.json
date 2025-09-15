@@ -5,7 +5,10 @@
     "url": "/plugins/quran-viewer.js",
     "element": "quran-viewer",
     "hostApi": "^1.0.0",
-    "routes": ["/quran"]
+    "routes": [
+      { "path": "/quran", "component": "quran-viewer" },
+      { "path": "/quran/:surah/:ayah", "component": "quran-viewer" }
+    ]
   },
   {
     "name": "hadith-viewer",
@@ -13,6 +16,6 @@
     "url": "/plugins/hadith-viewer.js",
     "element": "hadith-viewer",
     "hostApi": "^1.0.0",
-    "routes": ["/hadith"]
+    "routes": [{ "path": "/hadith", "component": "hadith-viewer" }]
   }
 ]
