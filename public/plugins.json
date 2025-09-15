@@ -1,0 +1,10 @@
+[
+  {
+    "name": "quran-viewer",
+    "version": "0.1.0",
+    "url": "/plugins/quran-viewer.js",
+    "element": "quran-viewer",
+    "hostApi": "^1.0.0",
+    "routes": ["/quran"]
+  }
+]
