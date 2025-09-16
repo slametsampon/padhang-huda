@@ -11,8 +11,15 @@ export interface PluginModule {
 export interface PluginManifest {
   name: string;
   version: string;
-  url: string; // lokasi file .js di CDN/public
-  element: string; // tag name custom element
-  hostApi: string; // versi host yang kompatibel
+  url: string;
+  element: string;
   routes?: { path: string; component: string }[];
+
+  // ✅ opsional, dipakai app-nav
+  nav?: {
+    label: string;
+    path: string;
+    icon?: string;
+    order?: number;
+  };
 }

@@ -75,7 +75,7 @@ const { is: at, defineProperty: lt, getOwnPropertyDescriptor: ct, getOwnProperty
   return e;
 } }, tt = (r, t) => !at(r, t), q = { attribute: !0, type: String, converter: R, reflect: !1, useDefault: !1, hasChanged: tt };
 Symbol.metadata ??= Symbol("metadata"), M.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
-let g = class extends HTMLElement {
+let m = class extends HTMLElement {
   static addInitializer(t) {
     this._$Ei(), (this.l ??= []).push(t);
   }
@@ -256,15 +256,15 @@ let g = class extends HTMLElement {
   firstUpdated(t) {
   }
 };
-g.elementStyles = [], g.shadowRootOptions = { mode: "open" }, g[S("elementProperties")] = /* @__PURE__ */ new Map(), g[S("finalized")] = /* @__PURE__ */ new Map(), _t?.({ ReactiveElement: g }), (M.reactiveElementVersions ??= []).push("2.1.1");
+m.elementStyles = [], m.shadowRootOptions = { mode: "open" }, m[S("elementProperties")] = /* @__PURE__ */ new Map(), m[S("finalized")] = /* @__PURE__ */ new Map(), _t?.({ ReactiveElement: m }), (M.reactiveElementVersions ??= []).push("2.1.1");
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const D = globalThis, H = D.trustedTypes, J = H ? H.createPolicy("lit-html", { createHTML: (r) => r }) : void 0, et = "$lit$", _ = `lit$${Math.random().toFixed(9).slice(2)}$`, st = "?" + _, ft = `<${st}>`, m = document, w = () => m.createComment(""), C = (r) => r === null || typeof r != "object" && typeof r != "function", L = Array.isArray, At = (r) => L(r) || typeof r?.[Symbol.iterator] == "function", N = `[ 	
+const D = globalThis, H = D.trustedTypes, J = H ? H.createPolicy("lit-html", { createHTML: (r) => r }) : void 0, et = "$lit$", _ = `lit$${Math.random().toFixed(9).slice(2)}$`, st = "?" + _, ft = `<${st}>`, g = document, w = () => g.createComment(""), C = (r) => r === null || typeof r != "object" && typeof r != "function", L = Array.isArray, At = (r) => L(r) || typeof r?.[Symbol.iterator] == "function", N = `[ 	
 \f\r]`, E = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, K = /-->/g, Z = />/g, f = RegExp(`>|${N}(?:([^\\s"'>=/]+)(${N}*=${N}*(?:[^ 	
-\f\r"'\`<>=]|("|')|))|$)`, "g"), F = /'/g, Y = /"/g, it = /^(?:script|style|textarea|title)$/i, mt = (r) => (t, ...e) => ({ _$litType$: r, strings: t, values: e }), gt = mt(1), y = Symbol.for("lit-noChange"), d = Symbol.for("lit-nothing"), G = /* @__PURE__ */ new WeakMap(), A = m.createTreeWalker(m, 129);
+\f\r"'\`<>=]|("|')|))|$)`, "g"), F = /'/g, Y = /"/g, it = /^(?:script|style|textarea|title)$/i, gt = (r) => (t, ...e) => ({ _$litType$: r, strings: t, values: e }), mt = gt(1), y = Symbol.for("lit-noChange"), d = Symbol.for("lit-nothing"), G = /* @__PURE__ */ new WeakMap(), A = g.createTreeWalker(g, 129);
 function rt(r, t) {
   if (!L(r) || !r.hasOwnProperty("raw")) throw Error("invalid template strings array");
   return J !== void 0 ? J.createHTML(t) : t;
@@ -314,7 +314,7 @@ class P {
     }
   }
   static createElement(t, e) {
-    const s = m.createElement("template");
+    const s = g.createElement("template");
     return s.innerHTML = t, s;
   }
 }
@@ -335,7 +335,7 @@ class vt {
     return this._$AM._$AU;
   }
   u(t) {
-    const { el: { content: e }, parts: s } = this._$AD, i = (t?.creationScope ?? m).importNode(e, !0);
+    const { el: { content: e }, parts: s } = this._$AD, i = (t?.creationScope ?? g).importNode(e, !0);
     A.currentNode = i;
     let n = A.nextNode(), o = 0, l = 0, h = s[0];
     for (; h !== void 0; ) {
@@ -345,7 +345,7 @@ class vt {
       }
       o !== h?.index && (n = A.nextNode(), o++);
     }
-    return A.currentNode = m, i;
+    return A.currentNode = g, i;
   }
   p(t) {
     let e = 0;
@@ -380,7 +380,7 @@ class x {
     this._$AH !== t && (this._$AR(), this._$AH = this.O(t));
   }
   _(t) {
-    this._$AH !== d && C(this._$AH) ? this._$AA.nextSibling.data = t : this.T(m.createTextNode(t)), this._$AH = t;
+    this._$AH !== d && C(this._$AH) ? this._$AA.nextSibling.data = t : this.T(g.createTextNode(t)), this._$AH = t;
   }
   $(t) {
     const { values: e, _$litType$: s } = t, i = typeof s == "number" ? this._$AC(t) : (s.el === void 0 && (s.el = P.createElement(rt(s.h, s.h[0]), this.options)), s);
@@ -493,7 +493,7 @@ const Pt = (r, t, e) => {
  * SPDX-License-Identifier: BSD-3-Clause
  */
 const j = globalThis;
-class b extends g {
+class b extends m {
   constructor() {
     super(...arguments), this.renderOptions = { host: this }, this._$Do = void 0;
   }
@@ -521,9 +521,9 @@ xt?.({ LitElement: b });
 (j.litElementVersions ??= []).push("4.2.1");
 const B = class B extends b {
   render() {
-    return gt`
+    return mt`
       <h2>📖 Qur’an Viewer</h2>
-      <div class="ayah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+      <div class="ayah" lang="ar">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
       <div class="translation">
         Dengan nama Allah Yang Maha Pengasih lagi Maha Penyayang
       </div>

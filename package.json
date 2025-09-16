@@ -5,14 +5,27 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "tailwind:build": "npx @tailwindcss/cli -i ./src/tailwind.css -o ./public/tailwind.css --minify",
+    "tailwind:watch": "npx @tailwindcss/cli -i ./src/tailwind.css -o ./public/tailwind.css --watch",
+    "build": "npm run tailwind:build && tsc && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:ui": "vitest"
   },
   "devDependencies": {
+    "@open-wc/testing": "^4.0.0",
+    "@tailwindcss/cli": "^4.1.13",
+    "@vitest/ui": "^3.2.4",
+    "autoprefixer": "^10.4.21",
+    "jsdom": "^27.0.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.13",
     "typescript": "~5.8.3",
-    "vite": "^7.1.2"
+    "vite": "^7.1.2",
+    "vitest": "^3.2.4"
   },
   "dependencies": {
+    "@lit/context": "^1.1.6",
     "@vaadin/router": "^2.0.0",
     "lit": "^3.3.1"
   }

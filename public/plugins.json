@@ -1,21 +1,24 @@
 [
   {
-    "name": "quran-viewer",
-    "version": "0.1.0",
+    "name": "quran",
+    "version": "1.0.0",
     "url": "/plugins/quran-viewer.js",
-    "element": "quran-viewer",
-    "hostApi": "^1.0.0",
-    "routes": [
-      { "path": "/quran", "component": "quran-viewer" },
-      { "path": "/quran/:surah/:ayah", "component": "quran-viewer" }
-    ]
+    "element": "quran-view",
+    "routes": [{ "path": "/quran", "component": "quran-view" }],
+    "nav": {
+      "label": "📖 Qur’an",
+      "path": "/quran"
+    }
   },
   {
-    "name": "hadith-viewer",
-    "version": "0.1.0",
+    "name": "hadith",
+    "version": "1.0.0",
     "url": "/plugins/hadith-viewer.js",
-    "element": "hadith-viewer",
-    "hostApi": "^1.0.0",
-    "routes": [{ "path": "/hadith", "component": "hadith-viewer" }]
+    "element": "hadith-view",
+    "routes": [{ "path": "/hadith", "component": "hadith-view" }],
+    "nav": {
+      "label": "📜 Hadith",
+      "path": "/hadith"
+    }
   }
 ]

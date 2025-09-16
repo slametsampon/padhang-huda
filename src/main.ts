@@ -1,5 +1,4 @@
 // src/main.ts
-
 import './components/layout/app-shell';
 import './components/views/not-found-view'; // pastikan not-found tersedia
 import { HostContext } from './host-context';
@@ -35,6 +34,16 @@ async function loadPlugins() {
         for (const r of p.routes) {
           allRoutes.push({ path: r.path, component: r.component });
         }
+      }
+
+      // ✅ injeksi menu nav bila ada deklarasi
+      if (p.nav) {
+        HostContext.nav.add({
+          label: p.nav.label,
+          path: p.nav.path,
+          icon: p.nav.icon,
+          order: p.nav.order,
+        });
       }
 
       if (mod.init) {

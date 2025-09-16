@@ -32,7 +32,7 @@ export default class QuranViewer extends LitElement {
   render() {
     return html`
       <h2>📖 Qur’an Viewer</h2>
-      <div class="ayah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+      <div class="ayah" lang="ar">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
       <div class="translation">
         Dengan nama Allah Yang Maha Pengasih lagi Maha Penyayang
       </div>
@@ -42,7 +42,6 @@ export default class QuranViewer extends LitElement {
 
 /**
  * Opsional init untuk integrasi non-routing (eventBus, theme, dsb.)
- * Tidak lagi melakukan registerRoute manual.
  */
 export function init(ctx: HostContext) {
   console.log('📖 QuranViewer init dengan host version:', ctx.version);
