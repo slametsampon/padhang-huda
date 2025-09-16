@@ -3,30 +3,41 @@
 import { LitElement, html, css } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
-// @ts-ignore → versi dari define build
+// dari vite.config.ts
+declare const __APP_VERSION__: string;
 
 @customElement('app-footer')
 export class AppFooter extends LitElement {
   static styles = css`
-    footer {
-      padding: 1rem;
-      background: #f8f8f8;
-      border-top: 1px solid #e0e0e0;
-      font-size: 0.9rem;
-      color: #555;
+    :host {
+      display: block;
+      width: 100%; /* ✅ pastikan custom element penuh */
+      background: #f9fafb;
+      border-top: 1px solid #e5e7eb;
+      position: fixed;
+      bottom: 0;
+      left: 0; /* ✅ tambah */
+      right: 0; /* ✅ tambah */
     }
 
-    .container {
+    footer {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      max-width: 960px;
-      margin: 0 auto;
+      width: 100%; /* ✅ isi ikut penuh */
+      padding: 0.75rem 1rem;
+      font-size: 0.875rem;
+      color: #374151;
+      box-sizing: border-box; /* ✅ padding dihitung di width 100% */
+    }
+
+    .links {
+      display: flex;
+      gap: 1rem;
     }
 
     a {
-      margin-left: 1rem;
-      color: #0077cc;
+      color: #0366d6;
       text-decoration: none;
     }
 
@@ -38,19 +49,15 @@ export class AppFooter extends LitElement {
   render() {
     return html`
       <footer>
-        <div class="container">
-          <div>
-            © ${new Date().getFullYear()} Taniverse v${'123'}. All rights
-            reserved.
-          </div>
-          <div>
-            <a
-              href="https://github.com/slametsampon/padhang-huda"
-              target="_blank"
-              >GitHub</a
-            >
-            <a href="/about">About</a>
-          </div>
+        <div>
+          © ${new Date().getFullYear()} Taniverse v${__APP_VERSION__}. All
+          rights reserved.
+        </div>
+        <div class="links">
+          <a href="https://github.com/slametsampon/padhang-huda" target="_blank"
+            >GitHub</a
+          >
+          <a href="/about">About</a>
         </div>
       </footer>
     `;

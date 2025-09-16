@@ -1,5 +1,6 @@
 // vite.config.ts
-import { defineConfig } from 'vitest/config';
+
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   server: {
@@ -8,8 +9,7 @@ export default defineConfig({
   build: {
     outDir: 'dist',
   },
-  test: {
-    globals: true,
-    environment: 'jsdom', // ✅ simulasi DOM di Node
+  define: {
+    __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
   },
 });
