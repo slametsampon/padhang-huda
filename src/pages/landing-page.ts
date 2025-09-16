@@ -85,7 +85,7 @@ export class LandingPage extends LitElement {
       margin: 0 auto;
       text-align: center;
       position: relative;
-      z-index: 1;
+      z-index: 0;
     }
 
     .features {
@@ -114,17 +114,6 @@ export class LandingPage extends LitElement {
       color: #ffd700;
       margin: 0.5rem 0;
       font-size: 1.2rem;
-    }
-
-    footer {
-      text-align: center;
-      padding: 2rem 1rem;
-      font-size: 0.875rem;
-      color: #94a3b8;
-      border-top: 1px solid #334155;
-      margin-top: 2rem;
-      position: relative;
-      z-index: 1;
     }
   `;
 
@@ -175,8 +164,6 @@ export class LandingPage extends LitElement {
           </div>
         </div>
       </section>
-
-      <footer>© 2025 Padhang Huda – The Light of Guidance</footer>
     `;
   }
 }
