@@ -1,0 +1,9 @@
+{
+  "dataProvider": "mock",
+  "providers": {
+    "api": {
+      "baseUrl": "https://example.com/quran-api",
+      "timeoutMs": 8000
+    }
+  }
+}

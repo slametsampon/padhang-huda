@@ -5,6 +5,8 @@ import './components/views/not-found-view';
 import { HostContext } from './host-context';
 import { initRouter, setRoutes } from './router';
 import type { PluginManifest, PluginModule } from './plugin-contract';
+import { loadAppConfig } from './config/app-config';
+import { createQuranProvider } from '../packages/quran-data/src/providers/provider-factory';
 import { QuranMockProvider } from '../packages/quran-data/src/quran-mock-provider';
 import { registerHostEventHandlers } from './events/register-host-events';
 
@@ -84,6 +86,16 @@ export async function loadPlugins(opts: PluginLoaderOptions = {}) {
 export async function bootstrapApp() {
   // Provider global mock (bisa diganti nanti)
   HostContext.provider = new QuranMockProvider();
+
+  // 1) Baca config
+  const cfg = await loadAppConfig();
+  // 2) Buat provider sesuai config, fallback aman ke mock bila error
+  try {
+    HostContext.provider = createQuranProvider(cfg);
+  } catch (e) {
+    console.warn('⚠️ createQuranProvider failed, fallback to mock:', e);
+    HostContext.provider = new QuranMockProvider();
+  }
 
   await customElements.whenDefined('app-shell');
   const appShell = document.querySelector('app-shell');
