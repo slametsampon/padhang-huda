@@ -1,32 +1,74 @@
 // src/components/layout/app-nav.ts
 
-import { LitElement, html, css } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { LitElement, html, css, type PropertyValues } from 'lit';
+import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { HostContext } from '../../host-context';
+import type { NavItem, NavStore, HostAPI } from '../../context/types';
 
 @customElement('app-nav')
 export class AppNav extends LitElement {
-  items = HostContext.nav.getAll();
+  /**
+   * Di-inject oleh <app-shell>. Jika tidak ada, fallback ke HostContext.nav.
+   */
+  @property({ attribute: false }) hostApi?: HostAPI;
 
-  connectedCallback() {
-    super.connectedCallback();
-    window.addEventListener('popstate', this._onRouteChange);
-    HostContext.nav.addEventListener('change', this._onNavChange);
+  /** Cache items untuk render */
+  @state()
+  private items: NavItem[] = [];
+
+  /** Store aktif yang sedang digunakan (untuk detach listener saat berganti) */
+  private _activeNav?: NavStore & EventTarget;
+
+  // --- lifecycle ---
+
+  protected firstUpdated() {
+    this.attachToCurrentStore();
   }
 
-  disconnectedCallback() {
-    window.removeEventListener('popstate', this._onRouteChange);
-    HostContext.nav.removeEventListener('change', this._onNavChange);
+  protected updated(changed: PropertyValues) {
+    if (changed.has('hostApi')) {
+      this.attachToCurrentStore();
+    }
+  }
+
+  disconnectedCallback(): void {
+    this.detachFromStore();
     super.disconnectedCallback();
   }
 
-  private _onRouteChange = () => this.requestUpdate();
+  // --- store wiring ---
+
+  private get resolvedNav(): NavStore & EventTarget {
+    return (this.hostApi?.nav ?? HostContext.nav) as unknown as NavStore &
+      EventTarget;
+  }
+
+  private detachFromStore() {
+    if (this._activeNav) {
+      this._activeNav.removeEventListener('change', this._onNavChange);
+      this._activeNav = undefined;
+    }
+  }
+
+  private attachToCurrentStore() {
+    const next = this.resolvedNav;
+    if (this._activeNav === next) return;
+
+    this.detachFromStore();
+    this._activeNav = next;
+    this.items = next.getAll();
+    next.addEventListener('change', this._onNavChange);
+
+    console.log('📌 Attached to NavStore, initial items:', this.items);
+  }
 
   private _onNavChange = () => {
-    this.items = HostContext.nav.getAll();
-    this.requestUpdate();
+    this.items = this.resolvedNav.getAll();
+    console.log('🔄 Nav items updated:', this.items);
   };
+
+  // --- styles & render ---
 
   static styles = css`
     nav {
@@ -69,7 +111,8 @@ export class AppNav extends LitElement {
                 location.pathname === item.path ? 'page' : undefined
               )}
             >
-              ${item.icon ?? ''} ${item.label}
+              ${item.icon ? html`<span class="icon">${item.icon}</span>` : ''}
+              <span class="label">${item.label}</span>
             </a>
           `
         )}

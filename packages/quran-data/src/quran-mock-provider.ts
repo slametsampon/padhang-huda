@@ -1,6 +1,10 @@
 // packages/quran-data/src/quran-mock-provider.ts
 
-import { QuranDataProvider, QuranVerse, QuranSurah } from './quran-contract';
+import type {
+  QuranDataProvider,
+  QuranVerse,
+  QuranSurah,
+} from './quran-contract';
 import { QURAN_MOCK_VERSES, QURAN_MOCK_SURAHS } from './quran-mock-data';
 
 /**

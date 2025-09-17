@@ -1,6 +1,6 @@
 // packages/quran-data/src/quran-mock-data.ts
 
-import { QuranVerse, QuranSurah } from './quran-contract';
+import type { QuranVerse, QuranSurah } from './quran-contract';
 
 /**
  * Dataset mock kecil:

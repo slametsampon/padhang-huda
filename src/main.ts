@@ -1,53 +1,31 @@
 // src/main.ts
 
 import './components/layout/app-shell';
-import './components/views/not-found-view'; // pastikan not-found tersedia
+import './components/views/not-found-view';
 import { HostContext } from './host-context';
 import { initRouter, setRoutes } from './router';
 import type { PluginManifest, PluginModule } from './plugin-contract';
+
+// 🔗 import provider mock
+import { QuranMockProvider } from '../packages/quran-data/src/quran-mock-provider';
 
 async function loadPlugins() {
   console.log('🔍 Fetching plugins.json...');
   const res = await fetch('/plugins.json');
   const plugins: PluginManifest[] = await res.json();
-  console.log('📦 Plugins registry loaded:', plugins);
 
   const allRoutes = [];
-  const seenTags = new Set<string>();
 
   for (const p of plugins) {
     try {
-      if (!p.name || !p.url || !p.element) {
-        console.warn(`⚠️ Invalid manifest for plugin:`, p);
-        continue;
-      }
+      if (!p.name || !p.url || !p.element) continue;
 
-      if (seenTags.has(p.element)) {
-        console.warn(`⚠️ Duplicate plugin element <${p.element}> skipped`);
-        continue;
-      }
-      seenTags.add(p.element);
-
-      console.log(`⏳ Loading plugin: ${p.name} from ${p.url}`);
       const mod: PluginModule = await import(
         new URL(/* @vite-ignore */ p.url, window.location.origin).href
       );
 
-      const ctor = mod.default;
-      if (!ctor) {
-        console.warn(`⚠️ Plugin ${p.name} has no default export`);
-        continue;
-      }
-
-      const existingCtor = customElements.get(p.element);
-      if (!existingCtor) {
-        console.log(`⚙️ Defining <${p.element}>`);
-        customElements.define(p.element, ctor);
-      } else if (existingCtor !== ctor) {
-        console.error(
-          `❌ Conflict: <${p.element}> already defined with a different constructor`
-        );
-        continue; // skip this plugin
+      if (!customElements.get(p.element)) {
+        customElements.define(p.element, mod.default);
       }
 
       if (p.routes) {
@@ -56,18 +34,12 @@ async function loadPlugins() {
         }
       }
 
-      // ✅ injeksi menu nav bila ada deklarasi
       if (p.nav) {
-        HostContext.nav.add({
-          label: p.nav.label,
-          path: p.nav.path,
-          icon: p.nav.icon,
-          order: p.nav.order,
-        });
+        HostContext.nav.add(p.nav);
       }
 
       if (mod.init) {
-        await mod.init(HostContext);
+        await mod.init(HostContext); // ✅ plugin akan baca ctx.provider
       }
 
       console.info(`✅ Plugin loaded: ${p.name}`);
@@ -80,7 +52,9 @@ async function loadPlugins() {
 }
 
 (async () => {
-  // ✅ Pastikan app-shell sudah siap sebelum cari outlet
+  // ✅ Provider global diinisialisasi sekali
+  HostContext.provider = new QuranMockProvider();
+
   await customElements.whenDefined('app-shell');
 
   const appShell = document.querySelector('app-shell');
@@ -93,6 +67,5 @@ async function loadPlugins() {
   initRouter(outlet);
 
   const routes = await loadPlugins();
-  console.log('✅ Routes configured:', routes);
   setRoutes(routes);
 })();

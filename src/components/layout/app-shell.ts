@@ -1,4 +1,5 @@
 // src/components/layout/app-shell.ts
+
 import { LitElement, html, css } from 'lit';
 import './app-header';
 import './app-nav';
@@ -8,6 +9,7 @@ import './app-footer';
 import { ContextProvider } from '@lit/context';
 import { hostApiContext, type HostApiContextValue } from '../../context/tokens';
 import type { HostAPI } from '../../context/types';
+import { property } from 'lit/decorators.js';
 
 export class AppShell extends LitElement {
   static styles = css`
@@ -27,24 +29,21 @@ export class AppShell extends LitElement {
     }
   `;
 
-  // Properti ini sudah Anda pakai di main.ts
-  // (biarkan HostAPI apa adanya; casting dilakukan saat setValue)
-  hostApi!: HostAPI;
+  // ✅ Jadikan reactive agar willUpdate terpicu saat di-assign dari luar (test/main.ts)
+  @property({ attribute: false }) hostApi!: HostAPI;
 
-  // ✅ Pakai signature baru: options object { context, initialValue? }
-  // (tanpa generic manual agar inference aman)
   private _provider = new ContextProvider(this, { context: hostApiContext });
 
   protected willUpdate(changed: Map<string, unknown>) {
     if (changed.has('hostApi')) {
-      // Casting sekali di sini untuk memenuhi HostApiContextValue
       this._provider.setValue(this.hostApi as HostApiContextValue);
     }
   }
 
   render() {
     return html`
-      <app-nav></app-nav>
+      <!-- ✅ Forward hostApi eksplisit ke app-nav -->
+      <app-nav .hostApi=${this.hostApi}></app-nav>
       <app-header></app-header>
       <div id="outlet"></div>
       <app-footer></app-footer>
