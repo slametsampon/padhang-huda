@@ -1,7 +1,31 @@
 // packages/quran-viewer/src/index.ts
 
 import { LitElement, html, css } from 'lit';
+import { property, state } from 'lit/decorators.js';
 import type { HostContext } from '../../../src/host-context';
+
+// Mock dataset kecil untuk demo (Fatiha + Baqarah:1)
+const DATA: Record<
+  number,
+  Record<number, { arabic: string; translation: string }>
+> = {
+  1: {
+    1: {
+      arabic: 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ',
+      translation: 'Dengan nama Allah Yang Maha Pengasih lagi Maha Penyayang',
+    },
+    2: {
+      arabic: 'الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ',
+      translation: 'Segala puji bagi Allah, Tuhan semesta alam',
+    },
+  },
+  2: {
+    1: {
+      arabic: 'الم',
+      translation: 'Alif, Lam, Mim',
+    },
+  },
+};
 
 export default class QuranViewer extends LitElement {
   static styles = css`
@@ -27,15 +51,41 @@ export default class QuranViewer extends LitElement {
       color: #333;
       font-size: 1rem;
     }
+    .not-found {
+      color: #900;
+      font-style: italic;
+    }
   `;
+
+  /** Surah number (default: 1 / Al-Fatiha) */
+  @property({ type: Number }) surah = 1;
+
+  /** Ayah number (default: 1) */
+  @property({ type: Number }) ayah = 1;
+
+  /** Internal state: resolved text */
+  @state() private verse?: { arabic: string; translation: string };
+
+  updated(changed: Map<string, unknown>) {
+    if (changed.has('surah') || changed.has('ayah')) {
+      this.verse = DATA[this.surah]?.[this.ayah];
+    }
+  }
 
   render() {
     return html`
       <h2>📖 Qur’an Viewer</h2>
-      <div class="ayah" lang="ar">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
-      <div class="translation">
-        Dengan nama Allah Yang Maha Pengasih lagi Maha Penyayang
-      </div>
+      ${this.verse
+        ? html`
+            <div class="ayah" lang="ar">${this.verse.arabic}</div>
+            <div class="translation">${this.verse.translation}</div>
+          `
+        : html`
+            <div class="not-found">
+              Ayat ${this.surah}:${this.ayah} tidak ditemukan dalam dataset
+              demo.
+            </div>
+          `}
     `;
   }
 }

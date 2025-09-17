@@ -1,4 +1,5 @@
 // src/main.ts
+
 import './components/layout/app-shell';
 import './components/views/not-found-view'; // pastikan not-found tersedia
 import { HostContext } from './host-context';
@@ -12,6 +13,7 @@ async function loadPlugins() {
   console.log('📦 Plugins registry loaded:', plugins);
 
   const allRoutes = [];
+  const seenTags = new Set<string>();
 
   for (const p of plugins) {
     try {
@@ -20,14 +22,32 @@ async function loadPlugins() {
         continue;
       }
 
+      if (seenTags.has(p.element)) {
+        console.warn(`⚠️ Duplicate plugin element <${p.element}> skipped`);
+        continue;
+      }
+      seenTags.add(p.element);
+
       console.log(`⏳ Loading plugin: ${p.name} from ${p.url}`);
       const mod: PluginModule = await import(
         new URL(/* @vite-ignore */ p.url, window.location.origin).href
       );
 
-      if (!customElements.get(p.element)) {
+      const ctor = mod.default;
+      if (!ctor) {
+        console.warn(`⚠️ Plugin ${p.name} has no default export`);
+        continue;
+      }
+
+      const existingCtor = customElements.get(p.element);
+      if (!existingCtor) {
         console.log(`⚙️ Defining <${p.element}>`);
-        customElements.define(p.element, mod.default);
+        customElements.define(p.element, ctor);
+      } else if (existingCtor !== ctor) {
+        console.error(
+          `❌ Conflict: <${p.element}> already defined with a different constructor`
+        );
+        continue; // skip this plugin
       }
 
       if (p.routes) {
