@@ -11,49 +11,66 @@ export class AppNav extends LitElement {
   /** Di-inject oleh <app-shell>. */
   @property({ attribute: false }) hostApi?: HostAPI;
 
-  /** ✅ sekarang pakai @state agar Lit auto re-render */
+  /** Reactive state untuk daftar item nav. */
   @state() private items: NavItem[] = [];
 
-  private _activeNav?: NavStore & EventTarget;
+  /** Store aktif (agar bisa detach listener saat berganti). */
+  private _activeNav?: (NavStore & EventTarget) | null = null;
 
-  protected firstUpdated() {
-    this.attachToCurrentStore();
-  }
+  // ===== lifecycle =====
 
-  protected updated(changed: PropertyValues) {
-    if (changed.has('hostApi')) {
-      this.attachToCurrentStore();
-    }
+  connectedCallback(): void {
+    super.connectedCallback();
+    // Attach awal ke store default (HostContext) — sebelum render pertama
+    this.attachToStore(this.resolvedNav);
+    // Dengarkan perubahan route untuk highlight link aktif
+    window.addEventListener('popstate', this._onRouteChange);
   }
 
   disconnectedCallback(): void {
+    window.removeEventListener('popstate', this._onRouteChange);
     this.detachFromStore();
     super.disconnectedCallback();
   }
+
+  /** Re-attach saat hostApi berubah — masih dalam siklus update → tidak ada warning. */
+  protected willUpdate(changed: PropertyValues) {
+    if (changed.has('hostApi')) {
+      this.attachToStore(this.resolvedNav);
+    }
+  }
+
+  // ===== wiring store =====
 
   private get resolvedNav(): NavStore & EventTarget {
     return (this.hostApi?.nav ?? HostContext.nav) as NavStore & EventTarget;
   }
 
-  private detachFromStore() {
-    if (this._activeNav) {
-      this._activeNav.removeEventListener('change', this._onNavChange);
-      this._activeNav = undefined;
-    }
-  }
+  private _onStoreChange = () => {
+    // Cukup set @state — Lit akan re-render tanpa requestUpdate()
+    this.items = this.resolvedNav.getAll();
+  };
 
-  private attachToCurrentStore() {
-    const next = this.resolvedNav;
+  private attachToStore(next: NavStore & EventTarget) {
     if (this._activeNav === next) return;
     this.detachFromStore();
     this._activeNav = next;
-    this.items = next.getAll();
-    next.addEventListener('change', this._onNavChange);
+    this.items = next.getAll(); // set awal sebelum render
+    next.addEventListener('change', this._onStoreChange);
   }
 
-  private _onNavChange = () => {
-    this.items = this.resolvedNav.getAll(); // ✅ cukup set items, auto re-render
+  private detachFromStore() {
+    if (!this._activeNav) return;
+    this._activeNav.removeEventListener('change', this._onStoreChange);
+    this._activeNav = null;
+  }
+
+  private _onRouteChange = () => {
+    // Perubahan URL hanya mempengaruhi aria-current; cukup minta re-render ringan
+    this.requestUpdate();
   };
+
+  // ===== styles & render =====
 
   static styles = css`
     nav {
@@ -61,7 +78,6 @@ export class AppNav extends LitElement {
       gap: 0.75rem;
       margin-bottom: 1rem;
     }
-
     a {
       display: inline-block;
       padding: 0.5rem 1rem;
@@ -73,12 +89,10 @@ export class AppNav extends LitElement {
       transition: background-color 0.2s, color 0.2s;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     }
-
     a:hover {
       background-color: #e0f2fe;
       color: #0369a1;
     }
-
     a[aria-current='page'] {
       background-color: #0ea5e9;
       color: white;
