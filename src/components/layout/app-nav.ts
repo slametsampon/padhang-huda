@@ -8,19 +8,13 @@ import type { NavItem, NavStore, HostAPI } from '../../context/types';
 
 @customElement('app-nav')
 export class AppNav extends LitElement {
-  /**
-   * Di-inject oleh <app-shell>. Jika tidak ada, fallback ke HostContext.nav.
-   */
+  /** Di-inject oleh <app-shell>. */
   @property({ attribute: false }) hostApi?: HostAPI;
 
-  /** Cache items untuk render */
-  @state()
-  private items: NavItem[] = [];
+  /** ✅ sekarang pakai @state agar Lit auto re-render */
+  @state() private items: NavItem[] = [];
 
-  /** Store aktif yang sedang digunakan (untuk detach listener saat berganti) */
   private _activeNav?: NavStore & EventTarget;
-
-  // --- lifecycle ---
 
   protected firstUpdated() {
     this.attachToCurrentStore();
@@ -37,11 +31,8 @@ export class AppNav extends LitElement {
     super.disconnectedCallback();
   }
 
-  // --- store wiring ---
-
   private get resolvedNav(): NavStore & EventTarget {
-    return (this.hostApi?.nav ?? HostContext.nav) as unknown as NavStore &
-      EventTarget;
+    return (this.hostApi?.nav ?? HostContext.nav) as NavStore & EventTarget;
   }
 
   private detachFromStore() {
@@ -54,21 +45,15 @@ export class AppNav extends LitElement {
   private attachToCurrentStore() {
     const next = this.resolvedNav;
     if (this._activeNav === next) return;
-
     this.detachFromStore();
     this._activeNav = next;
     this.items = next.getAll();
     next.addEventListener('change', this._onNavChange);
-
-    console.log('📌 Attached to NavStore, initial items:', this.items);
   }
 
   private _onNavChange = () => {
-    this.items = this.resolvedNav.getAll();
-    console.log('🔄 Nav items updated:', this.items);
+    this.items = this.resolvedNav.getAll(); // ✅ cukup set items, auto re-render
   };
-
-  // --- styles & render ---
 
   static styles = css`
     nav {
