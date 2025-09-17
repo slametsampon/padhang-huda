@@ -53,6 +53,24 @@ export class QuranViewer extends LitElement {
   /** Internal state: resolved verse */
   @state() private verse?: QuranVerse;
 
+  // packages/quran-viewer/src/quran-viewer.ts (di dalam class QuranViewer)
+  private _onGoto = (e: Event) => {
+    const { surah, ayah } = (e as CustomEvent<{ surah: number; ayah?: number }>)
+      .detail;
+    if (typeof surah === 'number') this.surah = surah;
+    if (typeof ayah === 'number') this.ayah = ayah;
+  };
+
+  connectedCallback() {
+    super.connectedCallback();
+    window.addEventListener('quran.goto', this._onGoto as EventListener);
+  }
+
+  disconnectedCallback() {
+    window.removeEventListener('quran.goto', this._onGoto as EventListener);
+    super.disconnectedCallback();
+  }
+
   updated(changed: Map<string, unknown>) {
     if (changed.has('surah') || changed.has('ayah') || changed.has('lang')) {
       this.loadVerse();

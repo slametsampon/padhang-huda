@@ -6,6 +6,7 @@ import { HostContext } from './host-context';
 import { initRouter, setRoutes } from './router';
 import type { PluginManifest, PluginModule } from './plugin-contract';
 import { QuranMockProvider } from '../packages/quran-data/src/quran-mock-provider';
+import { registerHostEventHandlers } from './events/register-host-events';
 
 type FetchLike = (
   input: RequestInfo | URL,
@@ -85,12 +86,14 @@ export async function bootstrapApp() {
   HostContext.provider = new QuranMockProvider();
 
   await customElements.whenDefined('app-shell');
-
   const appShell = document.querySelector('app-shell');
   const outlet = appShell?.shadowRoot?.querySelector(
     '#outlet'
   ) as HTMLElement | null;
   if (!outlet) throw new Error('❌ Outlet not found in <app-shell>');
+
+  // ✅ Pasang handler event host
+  registerHostEventHandlers();
 
   initRouter(outlet);
 
