@@ -36,8 +36,15 @@ export interface QuranSurah {
 }
 
 /** Kontrak provider data Qur’an */
+// packages/quran-data/src/quran-contract.ts
+
 export interface QuranDataProvider {
   getVerse(surah: number, ayah: number): Promise<QuranVerse | undefined>;
   getSurah(surah: number): Promise<QuranSurah | undefined>;
+
+  /** Search verses by text or translation */
   search(query: string, lang?: string): Promise<QuranVerse[]>;
+
+  /** Ambil semua ayat (untuk keperluan search box) */
+  getAllVerses(): Promise<QuranVerse[]>;
 }

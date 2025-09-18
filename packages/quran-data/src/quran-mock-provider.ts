@@ -35,4 +35,8 @@ export class QuranMockProvider implements QuranDataProvider {
         v.text.arabic.includes(query)
     );
   }
+
+  async getAllVerses(): Promise<QuranVerse[]> {
+    return QURAN_MOCK_VERSES;
+  }
 }

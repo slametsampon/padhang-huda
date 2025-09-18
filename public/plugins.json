@@ -3,8 +3,8 @@
     "name": "quran",
     "version": "1.0.0",
     "url": "/plugins/quran-viewer.js",
-    "element": "quran-view",
-    "routes": [{ "path": "/quran", "component": "quran-view" }],
+    "element": "quran-viewer",
+    "routes": [{ "path": "/quran", "component": "quran-viewer" }],
     "nav": {
       "label": "📖 Qur’an",
       "path": "/quran"
@@ -14,8 +14,8 @@
     "name": "hadith",
     "version": "1.0.0",
     "url": "/plugins/hadith-viewer.js",
-    "element": "hadith-view",
-    "routes": [{ "path": "/hadith", "component": "hadith-view" }],
+    "element": "hadith-viewer",
+    "routes": [{ "path": "/hadith", "component": "hadith-viewer" }],
     "nav": {
       "label": "📜 Hadith",
       "path": "/hadith"
