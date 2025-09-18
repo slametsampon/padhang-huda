@@ -10,6 +10,7 @@
     "build": "npm run tailwind:build && tsc && vite build",
     "preview": "vite preview",
     "test": "vitest run",
+    "fetch:chapters": "ts-node scripts/saveChapters.ts",
     "test:ui": "vitest"
   },
   "devDependencies": {
@@ -22,6 +23,7 @@
     "jsdom": "^27.0.0",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.13",
+    "ts-node": "^10.9.2",
     "typescript": "~5.8.3",
     "vite": "^7.1.2",
     "vite-plugin-static-copy": "^3.1.2",
