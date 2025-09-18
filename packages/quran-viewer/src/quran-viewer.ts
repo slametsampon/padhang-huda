@@ -6,13 +6,11 @@ import type {
   QuranVerse,
   QuranDataProvider,
 } from '../../quran-data/src/quran-contract';
-import { QuranMockProvider } from '../../quran-data/src/quran-mock-provider';
+import { createQuranProvider } from '../../quran-data/src/providers/provider-factory';
 import './components/quran-search-box';
 
 export class QuranViewer extends LitElement {
   static styles = css`
-    @import url('https://fonts.googleapis.com/css2?family=Amiri&display=swap');
-
     :host {
       display: block;
       padding: 1rem;
@@ -95,7 +93,9 @@ export class QuranViewer extends LitElement {
   @property({ type: Number }) ayah = 1;
   @property({ type: String }) lang = 'id';
 
-  private provider: QuranDataProvider = new QuranMockProvider();
+  private provider: QuranDataProvider = createQuranProvider({
+    dataProvider: 'mock',
+  } as any);
 
   @state() private verse?: QuranVerse;
   @state() private searchResults: QuranVerse[] = [];
@@ -146,7 +146,9 @@ export class QuranViewer extends LitElement {
     this.loading = true;
     const verses = await this.provider.getAllVerses();
     this.searchResults = verses.filter((v) =>
-      v.translations[this.lang]?.toLowerCase().includes(query.toLowerCase())
+      this.getTranslation(v, this.lang)
+        .toLowerCase()
+        .includes(query.toLowerCase())
     );
     this.loading = false;
   }
@@ -157,6 +159,23 @@ export class QuranViewer extends LitElement {
 
   private prevAyah() {
     if (this.ayah > 1) this.ayah--;
+  }
+
+  // 🔹 Helper anti-break untuk translations
+  private getTranslation(v: QuranVerse, lang: string): string {
+    const t = (v as any).translations;
+    if (!t) return '[Terjemahan tidak tersedia]';
+
+    // format baru: array
+    if (Array.isArray(t)) {
+      const found = t.find((tr: any) =>
+        tr.language_name?.toLowerCase().startsWith(lang.toLowerCase())
+      );
+      return found?.text ?? '[Terjemahan tidak tersedia]';
+    }
+
+    // format lama: dictionary
+    return t[lang] ?? '[Terjemahan tidak tersedia]';
   }
 
   render() {
@@ -175,8 +194,7 @@ export class QuranViewer extends LitElement {
                     <div><strong>${v.surah}:${v.ayah}</strong></div>
                     <div class="ayah" lang="ar" dir="rtl">${v.text.arabic}</div>
                     <div class="translation">
-                      ${v.translations[this.lang] ??
-                      '[Terjemahan tidak tersedia]'}
+                      ${this.getTranslation(v, this.lang)}
                     </div>
                   </div>
                 `
@@ -189,8 +207,7 @@ export class QuranViewer extends LitElement {
               ${this.verse?.text?.arabic ?? ''}
             </div>
             <div class="translation">
-              ${this.verse?.translations?.[this.lang] ??
-              '[Terjemahan tidak tersedia]'}
+              ${this.getTranslation(this.verse, this.lang)}
             </div>
             <div class="nav-buttons">
               <button @click=${this.prevAyah}>◀️ Prev</button>

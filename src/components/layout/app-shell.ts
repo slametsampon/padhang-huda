@@ -1,8 +1,6 @@
 // src/components/layout/app-shell.ts
-
 import { LitElement, html, css } from 'lit';
 import './app-header';
-import './app-nav';
 import './app-main';
 import './app-footer';
 
@@ -18,18 +16,9 @@ export class AppShell extends LitElement {
       font-family: system-ui, sans-serif;
       padding: 1rem;
     }
-    nav a {
-      margin-right: 1rem;
-      text-decoration: none;
-      color: #0366d6;
-      font-weight: 500;
-    }
-    nav a:hover {
-      text-decoration: underline;
-    }
   `;
 
-  // ✅ Jadikan reactive agar willUpdate terpicu saat di-assign dari luar (test/main.ts)
+  // ✅ Reactive, agar willUpdate terpanggil ketika di-assign dari luar
   @property({ attribute: false }) hostApi!: HostAPI;
 
   private _provider = new ContextProvider(this, { context: hostApiContext });
@@ -42,9 +31,7 @@ export class AppShell extends LitElement {
 
   render() {
     return html`
-      <!-- ✅ Forward hostApi eksplisit ke app-nav -->
-      <app-nav .hostApi=${this.hostApi}></app-nav>
-      <app-header></app-header>
+      <app-header .hostApi=${this.hostApi}></app-header>
       <div id="outlet"></div>
       <app-footer></app-footer>
     `;

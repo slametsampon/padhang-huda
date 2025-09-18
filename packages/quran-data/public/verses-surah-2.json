@@ -1,0 +1,111 @@
+{
+  "verses": [
+    {
+      "id": 8,
+      "verse_key": "2:1",
+      "text_uthmani": "الم",
+      "chapter_id": 2,
+      "juz_number": 1,
+      "hizb_number": 1,
+      "rub_el_hizb_number": 1,
+      "sajdah": false,
+      "page_number": 2,
+      "translations": [
+        { "id": 131, "language_name": "english", "text": "Alif, Lam, Meem" },
+        { "id": 33, "language_name": "indonesian", "text": "Alif, Lam, Mim" }
+      ]
+    },
+    {
+      "id": 9,
+      "verse_key": "2:2",
+      "text_uthmani": "ذَٰلِكَ الْكِتَابُ لَا رَيْبَ ۛ فِيهِ ۛ هُدًى لِلْمُتَّقِينَ",
+      "chapter_id": 2,
+      "juz_number": 1,
+      "hizb_number": 1,
+      "rub_el_hizb_number": 1,
+      "sajdah": false,
+      "page_number": 2,
+      "translations": [
+        {
+          "id": 131,
+          "language_name": "english",
+          "text": "This is the Book about which there is no doubt, a guidance for those conscious of Allah"
+        },
+        {
+          "id": 33,
+          "language_name": "indonesian",
+          "text": "Kitab (Al-Qur’an) ini tidak ada keraguan padanya; menjadi petunjuk bagi mereka yang bertakwa"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "verse_key": "2:3",
+      "text_uthmani": "الَّذِينَ يُؤْمِنُونَ بِالْغَيْبِ وَيُقِيمُونَ الصَّلَاةَ وَمِمَّا رَزَقْنَاهُمْ يُنْفِقُونَ",
+      "chapter_id": 2,
+      "juz_number": 1,
+      "hizb_number": 1,
+      "rub_el_hizb_number": 1,
+      "sajdah": false,
+      "page_number": 2,
+      "translations": [
+        {
+          "id": 131,
+          "language_name": "english",
+          "text": "Who believe in the unseen, establish prayer, and spend out of what We have provided for them"
+        },
+        {
+          "id": 33,
+          "language_name": "indonesian",
+          "text": "Yaitu mereka yang beriman kepada yang gaib, menegakkan salat, dan menafkahkan sebagian rezeki yang Kami berikan"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "verse_key": "2:4",
+      "text_uthmani": "وَالَّذِينَ يُؤْمِنُونَ بِمَا أُنْزِلَ إِلَيْكَ وَمَا أُنْزِلَ مِنْ قَبْلِكَ وَبِالْآخِرَةِ هُمْ يُوقِنُونَ",
+      "chapter_id": 2,
+      "juz_number": 1,
+      "hizb_number": 1,
+      "rub_el_hizb_number": 1,
+      "sajdah": false,
+      "page_number": 2,
+      "translations": [
+        {
+          "id": 131,
+          "language_name": "english",
+          "text": "And who believe in what has been revealed to you, and what was revealed before you, and of the Hereafter they are certain [in faith]"
+        },
+        {
+          "id": 33,
+          "language_name": "indonesian",
+          "text": "Dan mereka yang beriman kepada Kitab yang diturunkan kepadamu dan Kitab yang diturunkan sebelum kamu, serta mereka yakin akan adanya akhirat"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "verse_key": "2:5",
+      "text_uthmani": "أُولَٰئِكَ عَلَىٰ هُدًى مِنْ رَبِّهِمْ ۖ وَأُولَٰئِكَ هُمُ الْمُفْلِحُونَ",
+      "chapter_id": 2,
+      "juz_number": 1,
+      "hizb_number": 1,
+      "rub_el_hizb_number": 1,
+      "sajdah": false,
+      "page_number": 2,
+      "translations": [
+        {
+          "id": 131,
+          "language_name": "english",
+          "text": "It is they who will follow guidance from their Lord, and it is they who will be successful"
+        },
+        {
+          "id": 33,
+          "language_name": "indonesian",
+          "text": "Merekalah yang mendapat petunjuk dari Tuhan mereka, dan mereka itulah orang-orang yang beruntung"
+        }
+      ]
+    }
+  ]
+}

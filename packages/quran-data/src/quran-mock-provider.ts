@@ -21,7 +21,8 @@ export class QuranMockProvider implements QuranDataProvider {
   }
 
   async getVerse(surah: number, ayah: number): Promise<QuranVerse | undefined> {
-    return this.index.get(`${surah}:${ayah}`);
+    // Anti-break: jika tidak ada ayat di index, return undefined
+    return this.index.get(`${surah}:${ayah}`) ?? undefined;
   }
 
   async getSurah(surah: number): Promise<QuranSurah | undefined> {

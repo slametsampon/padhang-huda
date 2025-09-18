@@ -1,5 +1,4 @@
 // src/pages/about-page.ts
-
 import { LitElement, html, css } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
@@ -40,6 +39,35 @@ export class AboutPage extends LitElement {
       margin: 1rem 0;
       font-style: italic;
       color: #334155;
+      background: #e0f2fe;
+      border-radius: 0.5rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 0.75rem;
+      padding: 1rem 1.25rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      margin-bottom: 1rem;
+    }
+
+    .card h4 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.05rem;
+      color: #0369a1;
+    }
+
+    .card ul {
+      margin: 0.5rem 0 0 1.25rem;
+    }
+
+    a {
+      color: #0ea5e9;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
     }
   `;
 
@@ -105,6 +133,74 @@ export class AboutPage extends LitElement {
           <li>Ringan & cepat</li>
           <li>Komunitas-friendly</li>
         </ul>
+      </section>
+
+      <section>
+        <h3>🌐 Resources Data</h3>
+
+        <div class="card">
+          <h4>📖 Qur’an</h4>
+          <ul>
+            <li>
+              <a href="https://api.quran.com" target="_blank">Quran.com API</a>
+              – teks, tafsir, audio, metadata
+            </li>
+            <li>
+              <a href="https://equran.id/apidev" target="_blank">equran.id</a> –
+              teks, tafsir, doa, dzikir
+            </li>
+            <li>
+              <a href="https://alquran.cloud" target="_blank">alquran.cloud</a>
+              – teks + terjemahan sederhana
+            </li>
+            <li>
+              <a href="http://corpus.quran.com" target="_blank"
+                >QuranicCorpus</a
+              >
+              – morfologi & word-by-word
+            </li>
+            <li>
+              <a href="http://everyayah.com" target="_blank">Everyayah.com</a> –
+              audio qari
+            </li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h4>🕋 Hadis</h4>
+          <ul>
+            <li>
+              <a href="https://github.com/gadingnst/hadith-api" target="_blank"
+                >Hadith API (GadingNST)</a
+              >
+              – Arab + terjemahan ID
+            </li>
+            <li>
+              <a href="https://sunnah.com" target="_blank">Sunnah.com API</a> –
+              koleksi hadis lengkap
+            </li>
+            <li>
+              <a href="https://hadithapi.com" target="_blank">HadithAPI.com</a>
+              – multilingual
+            </li>
+            <li>
+              <a
+                href="https://dataverse.telkomuniversity.ac.id/"
+                target="_blank"
+                >Dataset Telkom Univ</a
+              >
+              – Bukhari bertema
+            </li>
+            <li>
+              <a
+                href="https://www.kaggle.com/datasets/fahd09/hadith-dataset"
+                target="_blank"
+                >SanadSet (Kaggle)</a
+              >
+              – analisis sanad
+            </li>
+          </ul>
+        </div>
       </section>
 
       <blockquote>

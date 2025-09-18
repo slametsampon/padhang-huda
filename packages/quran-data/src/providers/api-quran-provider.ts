@@ -126,4 +126,23 @@ export class ApiQuranProvider implements QuranDataProvider {
       meta: { juz: v.juz, page: v.page },
     }));
   }
+
+  async getAllVerses(): Promise<QuranVerse[]> {
+    // 🚨 Belum ada endpoint resmi → sementara kita fallback:
+    // ambil semua surah via getSurah() lalu gabungkan ayatnya.
+    // Hati-hati kalau API Anda besar → bisa berat.
+    const verses: QuranVerse[] = [];
+    // misalnya kita asumsikan backend punya 114 surah
+    for (let i = 1; i <= 114; i++) {
+      try {
+        const surah = await this.getSurah(i);
+        if (surah?.ayahs) {
+          verses.push(...surah.ayahs);
+        }
+      } catch {
+        // abaikan surah yg gagal
+      }
+    }
+    return verses;
+  }
 }

@@ -1,0 +1,79 @@
+{
+  "chapters": [
+    {
+      "id": 1,
+      "revelation_place": "makka",
+      "revelation_order": 5,
+      "bismillah_pre": false,
+      "name_simple": "Al-Fatihah",
+      "name_complex": "Al-Fātiḥah",
+      "name_arabic": "الفاتحة",
+      "verses_count": 7,
+      "pages": [1, 1],
+      "translated_name": {
+        "language_name": "english",
+        "name": "The Opening"
+      }
+    },
+    {
+      "id": 2,
+      "revelation_place": "madinah",
+      "revelation_order": 87,
+      "bismillah_pre": true,
+      "name_simple": "Al-Baqarah",
+      "name_complex": "Al-Baqarah",
+      "name_arabic": "البقرة",
+      "verses_count": 286,
+      "pages": [2, 49],
+      "translated_name": {
+        "language_name": "english",
+        "name": "The Cow"
+      }
+    },
+    {
+      "id": 3,
+      "revelation_place": "madinah",
+      "revelation_order": 89,
+      "bismillah_pre": true,
+      "name_simple": "Aal-E-Imran",
+      "name_complex": "Āl ʿImrān",
+      "name_arabic": "آل عمران",
+      "verses_count": 200,
+      "pages": [50, 76],
+      "translated_name": {
+        "language_name": "english",
+        "name": "Family of Imran"
+      }
+    },
+    {
+      "id": 4,
+      "revelation_place": "madinah",
+      "revelation_order": 92,
+      "bismillah_pre": true,
+      "name_simple": "An-Nisa",
+      "name_complex": "An-Nisā’",
+      "name_arabic": "النساء",
+      "verses_count": 176,
+      "pages": [77, 106],
+      "translated_name": {
+        "language_name": "english",
+        "name": "The Women"
+      }
+    },
+    {
+      "id": 5,
+      "revelation_place": "madinah",
+      "revelation_order": 112,
+      "bismillah_pre": true,
+      "name_simple": "Al-Maidah",
+      "name_complex": "Al-Mā’idah",
+      "name_arabic": "المائدة",
+      "verses_count": 120,
+      "pages": [106, 127],
+      "translated_name": {
+        "language_name": "english",
+        "name": "The Table Spread"
+      }
+    }
+  ]
+}

@@ -5,6 +5,15 @@
  * Fondasi kontrak data untuk seluruh plugin (viewer, search, audio, tafsir).
  */
 
+/**
+ * Representasi 1 terjemahan ayat
+ */
+export interface QuranTranslation {
+  id: number;
+  language_name: string;
+  text: string;
+}
+
 /** Representasi 1 ayat (Verse) */
 export interface QuranVerse {
   surah: number; // Nomor surah (1–114)
@@ -20,6 +29,8 @@ export interface QuranVerse {
     juz?: number;
     page?: number;
     hizb?: number;
+    rubElHizb?: number; // ✅ tambahkan ini
+    sajdah?: boolean; // ✅ juga dari API
   };
 }
 
@@ -32,11 +43,10 @@ export interface QuranSurah {
     translation: { [lang: string]: string };
   };
   revelation: 'Meccan' | 'Madinan';
-  ayahs: QuranVerse[];
+  ayahs?: QuranVerse[];
 }
 
 /** Kontrak provider data Qur’an */
-// packages/quran-data/src/quran-contract.ts
 
 export interface QuranDataProvider {
   getVerse(surah: number, ayah: number): Promise<QuranVerse | undefined>;
