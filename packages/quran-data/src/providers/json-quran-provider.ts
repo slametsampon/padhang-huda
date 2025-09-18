@@ -17,18 +17,17 @@ function isNodeEnv() {
   return typeof process !== 'undefined' && process.versions?.node;
 }
 
-/**
- * JsonQuranDataProvider
- * - Load data dari public/mock JSON
- * - Format identik Quran.com API
- */
 export class JsonQuranDataProvider implements QuranDataProvider {
   private chaptersCache?: QuranApiChaptersResponse;
 
   async getSurah(surah: number): Promise<QuranSurah | undefined> {
+    console.log('[JsonQuranProvider] getSurah →', surah);
     const chapters = await this.loadChapters();
     const chapter = chapters.find((c) => c.id === surah);
-    if (!chapter) return undefined;
+    if (!chapter) {
+      console.warn(`[JsonQuranProvider] Surah ${surah} tidak ditemukan`);
+      return undefined;
+    }
 
     return {
       number: chapter.id,
@@ -42,15 +41,20 @@ export class JsonQuranDataProvider implements QuranDataProvider {
   }
 
   async getVerse(surah: number, ayah: number): Promise<QuranVerse | undefined> {
+    console.log(`[JsonQuranProvider] getVerse → ${surah}:${ayah}`);
     const verses = await this.loadVerses(surah);
     const verse = verses.find(
       (v) => parseInt(v.verse_key.split(':')[1], 10) === ayah
     );
-    if (!verse) return undefined;
+    if (!verse) {
+      console.warn(`[JsonQuranProvider] Ayah ${surah}:${ayah} tidak ditemukan`);
+      return undefined;
+    }
     return this.mapVerse(verse);
   }
 
   async search(query: string, lang = 'english'): Promise<QuranVerse[]> {
+    console.log(`[JsonQuranProvider] search → "${query}", lang=${lang}`);
     const results: QuranVerse[] = [];
     const chapters = await this.loadChapters();
 
@@ -68,14 +72,20 @@ export class JsonQuranDataProvider implements QuranDataProvider {
             results.push(this.mapVerse(v));
           }
         }
-      } catch {
-        continue; // Abaikan surah yg belum ada file JSON
+      } catch (err) {
+        console.warn(
+          `[JsonQuranProvider] Skip surah ${chapter.id}, error loadVerses:`,
+          err
+        );
+        continue;
       }
     }
+    console.log(`[JsonQuranProvider] search result count = ${results.length}`);
     return results;
   }
 
   async getAllVerses(): Promise<QuranVerse[]> {
+    console.log('[JsonQuranProvider] getAllVerses');
     const chapters = await this.loadChapters();
     const all: QuranVerse[] = [];
 
@@ -83,10 +93,17 @@ export class JsonQuranDataProvider implements QuranDataProvider {
       try {
         const verses = await this.loadVerses(chapter.id);
         all.push(...verses.map((v) => this.mapVerse(v)));
-      } catch {
+      } catch (err) {
+        console.warn(
+          `[JsonQuranProvider] Skip surah ${chapter.id}, error loadVerses:`,
+          err
+        );
         continue;
       }
     }
+    console.log(
+      `[JsonQuranProvider] getAllVerses total loaded = ${all.length}`
+    );
     return all;
   }
 
@@ -96,21 +113,23 @@ export class JsonQuranDataProvider implements QuranDataProvider {
     if (this.chaptersCache) return this.chaptersCache.chapters;
 
     if (isNodeEnv()) {
+      // Node.js (test/dev)
       const fs = await import('fs');
       const path = await import('path');
       const { fileURLToPath } = await import('url');
 
       const __filename = fileURLToPath(import.meta.url);
       const __dirname = path.dirname(__filename);
-
       const filePath = path.resolve(__dirname, '../../public/chapters.json');
       const raw = fs.readFileSync(filePath, 'utf-8');
       const data: QuranApiChaptersResponse = JSON.parse(raw);
       this.chaptersCache = data;
       return data.chapters;
     } else {
-      // ⬇ perbaiki path: tidak pakai /mock
-      const res = await fetch('/chapters.json');
+      // Browser (prod) → langsung fetch dari public/quran-data
+      const url = `/quran-data/chapters.json`;
+      console.log('[JsonQuranProvider] loadChapters (browser) fetch:', url);
+      const res = await fetch(url);
       const data: QuranApiChaptersResponse = await res.json();
       this.chaptersCache = data;
       return data.chapters;
@@ -125,7 +144,6 @@ export class JsonQuranDataProvider implements QuranDataProvider {
 
       const __filename = fileURLToPath(import.meta.url);
       const __dirname = path.dirname(__filename);
-
       const filePath = path.resolve(
         __dirname,
         `../../public/verses-surah-${surah}.json`
@@ -134,8 +152,9 @@ export class JsonQuranDataProvider implements QuranDataProvider {
       const data: QuranApiVersesResponse = JSON.parse(raw);
       return data.verses;
     } else {
-      // ⬇ perbaiki path: tidak pakai /mock
-      const res = await fetch(`/verses-surah-${surah}.json`);
+      const url = `/quran-data/verses-surah-${surah}.json`;
+      console.log(`[JsonQuranProvider] loadVerses (browser) fetch:`, url);
+      const res = await fetch(url);
       const data: QuranApiVersesResponse = await res.json();
       return data.verses;
     }
