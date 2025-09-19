@@ -13,6 +13,44 @@ beforeAll(() => {
   if (!customElements.get('quran-viewer')) {
     customElements.define('quran-viewer', QuranViewer);
   }
+
+  // Mock fetch untuk quran-surah-selector → kembalikan shape { chapters: [...] }
+  (global as any).fetch = async (
+    input: RequestInfo | URL,
+    _init?: RequestInit
+  ) => {
+    const url = typeof input === 'string' ? input : input.toString();
+
+    if (
+      url.endsWith('/quran-data/chapters.json') ||
+      url.includes('chapters.json')
+    ) {
+      return new Response(
+        JSON.stringify({
+          chapters: [
+            {
+              id: 1,
+              name_simple: 'Al-Fatihah',
+              name_arabic: 'الفاتحة',
+              revelation_place: 'meccan',
+              verses_count: 7,
+              pages: [1, 1],
+            },
+            {
+              id: 2,
+              name_simple: 'Al-Baqarah',
+              name_arabic: 'البقرة',
+              revelation_place: 'medinan',
+              verses_count: 286,
+              pages: [2, 49],
+            },
+          ],
+        }),
+        { headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+    return new Response('{}', { status: 404 });
+  };
 });
 
 describe('<quran-viewer>', () => {
@@ -28,7 +66,8 @@ describe('<quran-viewer>', () => {
     await el.updateComplete;
 
     expect(el.shadowRoot?.textContent).toContain('بِسْمِ اللَّهِ');
-    expect(el.shadowRoot?.textContent).toContain('[Terjemahan tidak tersedia]');
+    // ✅ MockProvider sekarang sudah punya translasi bahasa Indonesia
+    expect(el.shadowRoot?.textContent).toContain('Dengan nama Allah');
   });
 
   it('should render verse 1:2 when ayah is changed', async () => {
@@ -40,27 +79,22 @@ describe('<quran-viewer>', () => {
 
     document.body.appendChild(el);
     await el.updateComplete;
-    await new Promise((r) => setTimeout(r, 0));
+    await flush();
 
     expect(el.shadowRoot?.textContent).toContain('الْحَمْدُ لِلَّهِ');
-    // ✅ karena MockProvider punya terjemahan bahasa Indonesia
     expect(el.shadowRoot?.textContent).toContain('Segala puji bagi Allah');
   });
 
   it('should show not-found message for invalid ayah', async () => {
     const el = document.createElement('quran-viewer') as QuranViewer;
 
-    // ✅ set dulu provider & props SEBELUM append
     el.setProvider(new QuranMockProvider());
     el.surah = 1;
     el.ayah = 999; // ayah tidak ada
 
     document.body.appendChild(el);
     await el.updateComplete;
-
-    // flush ganda agar tidak tertimpa render awal
-    await new Promise((r) => setTimeout(r, 0));
-    await el.updateComplete;
+    await flush();
 
     expect(el.shadowRoot?.textContent).toContain('tidak ditemukan');
   });
@@ -126,26 +160,34 @@ describe('<quran-viewer>', () => {
 
     el.setProvider(new QuranMockProvider());
     await el.updateComplete;
-    await flush();
 
-    // Kirim event search manual
-    el.dispatchEvent(
-      new CustomEvent('quran.search', {
-        detail: { query: 'Allah' },
-        bubbles: true,
-        composed: true,
-      })
+    // trigger pencarian (viewer listen di window)
+    const query = 'Dengan'; // pasti ada di MockProvider
+    window.dispatchEvent(
+      new CustomEvent('quran.search', { detail: { query } })
     );
+
+    // sinkronisasi update: viewer -> setState -> render -> anak render
+    await Promise.resolve();
     await el.updateComplete;
-    await flush();
+    await Promise.resolve();
 
-    expect(el.shadowRoot?.textContent).toContain('Allah');
-    expect(el.shadowRoot?.querySelectorAll('.result').length).toBeGreaterThan(
-      0
-    );
+    // ambil komponen hasil pencarian
+    const resultsEl = el.shadowRoot?.querySelector(
+      'quran-search-results'
+    ) as any;
+    expect(resultsEl).toBeTruthy();
+
+    // tunggu update di komponen anak
+    if (resultsEl?.updateComplete) await resultsEl.updateComplete;
+    await Promise.resolve();
+
+    // cek isi shadow DOM anak
+    const resultsRoot = resultsEl.shadowRoot as ShadowRoot | null;
+    expect(resultsRoot?.textContent).toContain(query);
+    expect(resultsRoot?.querySelectorAll('.result').length).toBeGreaterThan(0);
   });
 
-  // 🔹 Tambahan: test JsonQuranDataProvider
   it('should render verse 1:1 with JsonQuranDataProvider', async () => {
     const el = document.createElement('quran-viewer') as QuranViewer;
     document.body.appendChild(el);
