@@ -3,18 +3,18 @@
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const z = globalThis, W = z.ShadowRoot && (z.ShadyCSS === void 0 || z.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, F = Symbol(), it = /* @__PURE__ */ new WeakMap();
-let ft = class {
+const H = globalThis, Y = H.ShadowRoot && (H.ShadyCSS === void 0 || H.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, G = Symbol(), rt = /* @__PURE__ */ new WeakMap();
+let mt = class {
   constructor(t, e, s) {
-    if (this._$cssResult$ = !0, s !== F) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
+    if (this._$cssResult$ = !0, s !== G) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
     this.cssText = t, this.t = e;
   }
   get styleSheet() {
     let t = this.o;
     const e = this.t;
-    if (W && t === void 0) {
+    if (Y && t === void 0) {
       const s = e !== void 0 && e.length === 1;
-      s && (t = it.get(e)), t === void 0 && ((this.o = t = new CSSStyleSheet()).replaceSync(this.cssText), s && it.set(e, t));
+      s && (t = rt.get(e)), t === void 0 && ((this.o = t = new CSSStyleSheet()).replaceSync(this.cssText), s && rt.set(e, t));
     }
     return t;
   }
@@ -22,60 +22,60 @@ let ft = class {
     return this.cssText;
   }
 };
-const bt = (a) => new ft(typeof a == "string" ? a : a + "", void 0, F), L = (a, ...t) => {
-  const e = a.length === 1 ? a[0] : t.reduce(((s, r, i) => s + ((n) => {
+const vt = (r) => new mt(typeof r == "string" ? r : r + "", void 0, G), D = (r, ...t) => {
+  const e = r.length === 1 ? r[0] : t.reduce(((s, i, a) => s + ((n) => {
     if (n._$cssResult$ === !0) return n.cssText;
     if (typeof n == "number") return n;
     throw Error("Value passed to 'css' function must be a 'css' function result: " + n + ". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.");
-  })(r) + a[i + 1]), a[0]);
-  return new ft(e, a, F);
-}, At = (a, t) => {
-  if (W) a.adoptedStyleSheets = t.map(((e) => e instanceof CSSStyleSheet ? e : e.styleSheet));
+  })(i) + r[a + 1]), r[0]);
+  return new mt(e, r, G);
+}, _t = (r, t) => {
+  if (Y) r.adoptedStyleSheets = t.map(((e) => e instanceof CSSStyleSheet ? e : e.styleSheet));
   else for (const e of t) {
-    const s = document.createElement("style"), r = z.litNonce;
-    r !== void 0 && s.setAttribute("nonce", r), s.textContent = e.cssText, a.appendChild(s);
+    const s = document.createElement("style"), i = H.litNonce;
+    i !== void 0 && s.setAttribute("nonce", i), s.textContent = e.cssText, r.appendChild(s);
   }
-}, at = W ? (a) => a : (a) => a instanceof CSSStyleSheet ? ((t) => {
+}, at = Y ? (r) => r : (r) => r instanceof CSSStyleSheet ? ((t) => {
   let e = "";
   for (const s of t.cssRules) e += s.cssText;
-  return bt(e);
-})(a) : a;
+  return vt(e);
+})(r) : r;
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const { is: wt, defineProperty: Et, getOwnPropertyDescriptor: St, getOwnPropertyNames: xt, getOwnPropertySymbols: Ct, getPrototypeOf: Pt } = Object, J = globalThis, nt = J.trustedTypes, kt = nt ? nt.emptyScript : "", Tt = J.reactiveElementPolyfillSupport, U = (a, t) => a, q = { toAttribute(a, t) {
+const { is: At, defineProperty: wt, getOwnPropertyDescriptor: Et, getOwnPropertyNames: xt, getOwnPropertySymbols: St, getPrototypeOf: kt } = Object, I = globalThis, nt = I.trustedTypes, Ct = nt ? nt.emptyScript : "", Pt = I.reactiveElementPolyfillSupport, T = (r, t) => r, z = { toAttribute(r, t) {
   switch (t) {
     case Boolean:
-      a = a ? kt : null;
+      r = r ? Ct : null;
       break;
     case Object:
     case Array:
-      a = a == null ? a : JSON.stringify(a);
+      r = r == null ? r : JSON.stringify(r);
   }
-  return a;
-}, fromAttribute(a, t) {
-  let e = a;
+  return r;
+}, fromAttribute(r, t) {
+  let e = r;
   switch (t) {
     case Boolean:
-      e = a !== null;
+      e = r !== null;
       break;
     case Number:
-      e = a === null ? null : Number(a);
+      e = r === null ? null : Number(r);
       break;
     case Object:
     case Array:
       try {
-        e = JSON.parse(a);
+        e = JSON.parse(r);
       } catch {
         e = null;
       }
   }
   return e;
-} }, G = (a, t) => !wt(a, t), ot = { attribute: !0, type: String, converter: q, reflect: !1, useDefault: !1, hasChanged: G };
-Symbol.metadata ??= Symbol("metadata"), J.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
-let w = class extends HTMLElement {
+} }, F = (r, t) => !At(r, t), ot = { attribute: !0, type: String, converter: z, reflect: !1, useDefault: !1, hasChanged: F };
+Symbol.metadata ??= Symbol("metadata"), I.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
+let x = class extends HTMLElement {
   static addInitializer(t) {
     this._$Ei(), (this.l ??= []).push(t);
   }
@@ -84,44 +84,44 @@ let w = class extends HTMLElement {
   }
   static createProperty(t, e = ot) {
     if (e.state && (e.attribute = !1), this._$Ei(), this.prototype.hasOwnProperty(t) && ((e = Object.create(e)).wrapped = !0), this.elementProperties.set(t, e), !e.noAccessor) {
-      const s = Symbol(), r = this.getPropertyDescriptor(t, s, e);
-      r !== void 0 && Et(this.prototype, t, r);
+      const s = Symbol(), i = this.getPropertyDescriptor(t, s, e);
+      i !== void 0 && wt(this.prototype, t, i);
     }
   }
   static getPropertyDescriptor(t, e, s) {
-    const { get: r, set: i } = St(this.prototype, t) ?? { get() {
+    const { get: i, set: a } = Et(this.prototype, t) ?? { get() {
       return this[e];
     }, set(n) {
       this[e] = n;
     } };
-    return { get: r, set(n) {
-      const h = r?.call(this);
-      i?.call(this, n), this.requestUpdate(t, h, s);
+    return { get: i, set(n) {
+      const h = i?.call(this);
+      a?.call(this, n), this.requestUpdate(t, h, s);
     }, configurable: !0, enumerable: !0 };
   }
   static getPropertyOptions(t) {
     return this.elementProperties.get(t) ?? ot;
   }
   static _$Ei() {
-    if (this.hasOwnProperty(U("elementProperties"))) return;
-    const t = Pt(this);
+    if (this.hasOwnProperty(T("elementProperties"))) return;
+    const t = kt(this);
     t.finalize(), t.l !== void 0 && (this.l = [...t.l]), this.elementProperties = new Map(t.elementProperties);
   }
   static finalize() {
-    if (this.hasOwnProperty(U("finalized"))) return;
-    if (this.finalized = !0, this._$Ei(), this.hasOwnProperty(U("properties"))) {
-      const e = this.properties, s = [...xt(e), ...Ct(e)];
-      for (const r of s) this.createProperty(r, e[r]);
+    if (this.hasOwnProperty(T("finalized"))) return;
+    if (this.finalized = !0, this._$Ei(), this.hasOwnProperty(T("properties"))) {
+      const e = this.properties, s = [...xt(e), ...St(e)];
+      for (const i of s) this.createProperty(i, e[i]);
     }
     const t = this[Symbol.metadata];
     if (t !== null) {
       const e = litPropertyMetadata.get(t);
-      if (e !== void 0) for (const [s, r] of e) this.elementProperties.set(s, r);
+      if (e !== void 0) for (const [s, i] of e) this.elementProperties.set(s, i);
     }
     this._$Eh = /* @__PURE__ */ new Map();
     for (const [e, s] of this.elementProperties) {
-      const r = this._$Eu(e, s);
-      r !== void 0 && this._$Eh.set(r, e);
+      const i = this._$Eu(e, s);
+      i !== void 0 && this._$Eh.set(i, e);
     }
     this.elementStyles = this.finalizeStyles(this.styles);
   }
@@ -129,7 +129,7 @@ let w = class extends HTMLElement {
     const e = [];
     if (Array.isArray(t)) {
       const s = new Set(t.flat(1 / 0).reverse());
-      for (const r of s) e.unshift(at(r));
+      for (const i of s) e.unshift(at(i));
     } else t !== void 0 && e.push(at(t));
     return e;
   }
@@ -156,7 +156,7 @@ let w = class extends HTMLElement {
   }
   createRenderRoot() {
     const t = this.shadowRoot ?? this.attachShadow(this.constructor.shadowRootOptions);
-    return At(t, this.constructor.elementStyles), t;
+    return _t(t, this.constructor.elementStyles), t;
   }
   connectedCallback() {
     this.renderRoot ??= this.createRenderRoot(), this.enableUpdating(!0), this._$EO?.forEach(((t) => t.hostConnected?.()));
@@ -170,31 +170,31 @@ let w = class extends HTMLElement {
     this._$AK(t, s);
   }
   _$ET(t, e) {
-    const s = this.constructor.elementProperties.get(t), r = this.constructor._$Eu(t, s);
-    if (r !== void 0 && s.reflect === !0) {
-      const i = (s.converter?.toAttribute !== void 0 ? s.converter : q).toAttribute(e, s.type);
-      this._$Em = t, i == null ? this.removeAttribute(r) : this.setAttribute(r, i), this._$Em = null;
+    const s = this.constructor.elementProperties.get(t), i = this.constructor._$Eu(t, s);
+    if (i !== void 0 && s.reflect === !0) {
+      const a = (s.converter?.toAttribute !== void 0 ? s.converter : z).toAttribute(e, s.type);
+      this._$Em = t, a == null ? this.removeAttribute(i) : this.setAttribute(i, a), this._$Em = null;
     }
   }
   _$AK(t, e) {
-    const s = this.constructor, r = s._$Eh.get(t);
-    if (r !== void 0 && this._$Em !== r) {
-      const i = s.getPropertyOptions(r), n = typeof i.converter == "function" ? { fromAttribute: i.converter } : i.converter?.fromAttribute !== void 0 ? i.converter : q;
-      this._$Em = r;
-      const h = n.fromAttribute(e, i.type);
-      this[r] = h ?? this._$Ej?.get(r) ?? h, this._$Em = null;
+    const s = this.constructor, i = s._$Eh.get(t);
+    if (i !== void 0 && this._$Em !== i) {
+      const a = s.getPropertyOptions(i), n = typeof a.converter == "function" ? { fromAttribute: a.converter } : a.converter?.fromAttribute !== void 0 ? a.converter : z;
+      this._$Em = i;
+      const h = n.fromAttribute(e, a.type);
+      this[i] = h ?? this._$Ej?.get(i) ?? h, this._$Em = null;
     }
   }
   requestUpdate(t, e, s) {
     if (t !== void 0) {
-      const r = this.constructor, i = this[t];
-      if (s ??= r.getPropertyOptions(t), !((s.hasChanged ?? G)(i, e) || s.useDefault && s.reflect && i === this._$Ej?.get(t) && !this.hasAttribute(r._$Eu(t, s)))) return;
+      const i = this.constructor, a = this[t];
+      if (s ??= i.getPropertyOptions(t), !((s.hasChanged ?? F)(a, e) || s.useDefault && s.reflect && a === this._$Ej?.get(t) && !this.hasAttribute(i._$Eu(t, s)))) return;
       this.C(t, e, s);
     }
     this.isUpdatePending === !1 && (this._$ES = this._$EP());
   }
-  C(t, e, { useDefault: s, reflect: r, wrapped: i }, n) {
-    s && !(this._$Ej ??= /* @__PURE__ */ new Map()).has(t) && (this._$Ej.set(t, n ?? e ?? this[t]), i !== !0 || n !== void 0) || (this._$AL.has(t) || (this.hasUpdated || s || (e = void 0), this._$AL.set(t, e)), r === !0 && this._$Em !== t && (this._$Eq ??= /* @__PURE__ */ new Set()).add(t));
+  C(t, e, { useDefault: s, reflect: i, wrapped: a }, n) {
+    s && !(this._$Ej ??= /* @__PURE__ */ new Map()).has(t) && (this._$Ej.set(t, n ?? e ?? this[t]), a !== !0 || n !== void 0) || (this._$AL.has(t) || (this.hasUpdated || s || (e = void 0), this._$AL.set(t, e)), i === !0 && this._$Em !== t && (this._$Eq ??= /* @__PURE__ */ new Set()).add(t));
   }
   async _$EP() {
     this.isUpdatePending = !0;
@@ -213,13 +213,13 @@ let w = class extends HTMLElement {
     if (!this.isUpdatePending) return;
     if (!this.hasUpdated) {
       if (this.renderRoot ??= this.createRenderRoot(), this._$Ep) {
-        for (const [r, i] of this._$Ep) this[r] = i;
+        for (const [i, a] of this._$Ep) this[i] = a;
         this._$Ep = void 0;
       }
       const s = this.constructor.elementProperties;
-      if (s.size > 0) for (const [r, i] of s) {
-        const { wrapped: n } = i, h = this[r];
-        n !== !0 || this._$AL.has(r) || h === void 0 || this.C(r, void 0, i, h);
+      if (s.size > 0) for (const [i, a] of s) {
+        const { wrapped: n } = a, h = this[i];
+        n !== !0 || this._$AL.has(i) || h === void 0 || this.C(i, void 0, a, h);
       }
     }
     let t = !1;
@@ -256,75 +256,75 @@ let w = class extends HTMLElement {
   firstUpdated(t) {
   }
 };
-w.elementStyles = [], w.shadowRootOptions = { mode: "open" }, w[U("elementProperties")] = /* @__PURE__ */ new Map(), w[U("finalized")] = /* @__PURE__ */ new Map(), Tt?.({ ReactiveElement: w }), (J.reactiveElementVersions ??= []).push("2.1.1");
+x.elementStyles = [], x.shadowRootOptions = { mode: "open" }, x[T("elementProperties")] = /* @__PURE__ */ new Map(), x[T("finalized")] = /* @__PURE__ */ new Map(), Pt?.({ ReactiveElement: x }), (I.reactiveElementVersions ??= []).push("2.1.1");
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const K = globalThis, V = K.trustedTypes, ht = V ? V.createPolicy("lit-html", { createHTML: (a) => a }) : void 0, $t = "$lit$", g = `lit$${Math.random().toFixed(9).slice(2)}$`, gt = "?" + g, Ut = `<${gt}>`, b = document, O = () => b.createComment(""), j = (a) => a === null || typeof a != "object" && typeof a != "function", Z = Array.isArray, Ot = (a) => Z(a) || typeof a?.[Symbol.iterator] == "function", I = `[ 	
-\f\r]`, T = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, lt = /-->/g, ct = />/g, y = RegExp(`>|${I}(?:([^\\s"'>=/]+)(${I}*=${I}*(?:[^ 	
-\f\r"'\`<>=]|("|')|))|$)`, "g"), dt = /'/g, ut = /"/g, _t = /^(?:script|style|textarea|title)$/i, jt = (a) => (t, ...e) => ({ _$litType$: a, strings: t, values: e }), p = jt(1), E = Symbol.for("lit-noChange"), d = Symbol.for("lit-nothing"), pt = /* @__PURE__ */ new WeakMap(), v = b.createTreeWalker(b, 129);
-function yt(a, t) {
-  if (!Z(a) || !a.hasOwnProperty("raw")) throw Error("invalid template strings array");
+const J = globalThis, L = J.trustedTypes, ht = L ? L.createPolicy("lit-html", { createHTML: (r) => r }) : void 0, gt = "$lit$", $ = `lit$${Math.random().toFixed(9).slice(2)}$`, ft = "?" + $, Tt = `<${ft}>`, _ = document, M = () => _.createComment(""), U = (r) => r === null || typeof r != "object" && typeof r != "function", Q = Array.isArray, Mt = (r) => Q(r) || typeof r?.[Symbol.iterator] == "function", B = `[ 	
+\f\r]`, P = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, lt = /-->/g, ct = />/g, b = RegExp(`>|${B}(?:([^\\s"'>=/]+)(${B}*=${B}*(?:[^ 	
+\f\r"'\`<>=]|("|')|))|$)`, "g"), dt = /'/g, ut = /"/g, $t = /^(?:script|style|textarea|title)$/i, Ut = (r) => (t, ...e) => ({ _$litType$: r, strings: t, values: e }), p = Ut(1), A = Symbol.for("lit-noChange"), c = Symbol.for("lit-nothing"), pt = /* @__PURE__ */ new WeakMap(), v = _.createTreeWalker(_, 129);
+function yt(r, t) {
+  if (!Q(r) || !r.hasOwnProperty("raw")) throw Error("invalid template strings array");
   return ht !== void 0 ? ht.createHTML(t) : t;
 }
-const Nt = (a, t) => {
-  const e = a.length - 1, s = [];
-  let r, i = t === 2 ? "<svg>" : t === 3 ? "<math>" : "", n = T;
+const jt = (r, t) => {
+  const e = r.length - 1, s = [];
+  let i, a = t === 2 ? "<svg>" : t === 3 ? "<math>" : "", n = P;
   for (let h = 0; h < e; h++) {
-    const o = a[h];
-    let c, u, l = -1, m = 0;
-    for (; m < o.length && (n.lastIndex = m, u = n.exec(o), u !== null); ) m = n.lastIndex, n === T ? u[1] === "!--" ? n = lt : u[1] !== void 0 ? n = ct : u[2] !== void 0 ? (_t.test(u[2]) && (r = RegExp("</" + u[2], "g")), n = y) : u[3] !== void 0 && (n = y) : n === y ? u[0] === ">" ? (n = r ?? T, l = -1) : u[1] === void 0 ? l = -2 : (l = n.lastIndex - u[2].length, c = u[1], n = u[3] === void 0 ? y : u[3] === '"' ? ut : dt) : n === ut || n === dt ? n = y : n === lt || n === ct ? n = T : (n = y, r = void 0);
-    const $ = n === y && a[h + 1].startsWith("/>") ? " " : "";
-    i += n === T ? o + Ut : l >= 0 ? (s.push(c), o.slice(0, l) + $t + o.slice(l) + g + $) : o + g + (l === -2 ? h : $);
+    const o = r[h];
+    let d, u, l = -1, g = 0;
+    for (; g < o.length && (n.lastIndex = g, u = n.exec(o), u !== null); ) g = n.lastIndex, n === P ? u[1] === "!--" ? n = lt : u[1] !== void 0 ? n = ct : u[2] !== void 0 ? ($t.test(u[2]) && (i = RegExp("</" + u[2], "g")), n = b) : u[3] !== void 0 && (n = b) : n === b ? u[0] === ">" ? (n = i ?? P, l = -1) : u[1] === void 0 ? l = -2 : (l = n.lastIndex - u[2].length, d = u[1], n = u[3] === void 0 ? b : u[3] === '"' ? ut : dt) : n === ut || n === dt ? n = b : n === lt || n === ct ? n = P : (n = b, i = void 0);
+    const f = n === b && r[h + 1].startsWith("/>") ? " " : "";
+    a += n === P ? o + Tt : l >= 0 ? (s.push(d), o.slice(0, l) + gt + o.slice(l) + $ + f) : o + $ + (l === -2 ? h : f);
   }
-  return [yt(a, i + (a[e] || "<?>") + (t === 2 ? "</svg>" : t === 3 ? "</math>" : "")), s];
+  return [yt(r, a + (r[e] || "<?>") + (t === 2 ? "</svg>" : t === 3 ? "</math>" : "")), s];
 };
-class N {
+class j {
   constructor({ strings: t, _$litType$: e }, s) {
-    let r;
+    let i;
     this.parts = [];
-    let i = 0, n = 0;
-    const h = t.length - 1, o = this.parts, [c, u] = Nt(t, e);
-    if (this.el = N.createElement(c, s), v.currentNode = this.el.content, e === 2 || e === 3) {
+    let a = 0, n = 0;
+    const h = t.length - 1, o = this.parts, [d, u] = jt(t, e);
+    if (this.el = j.createElement(d, s), v.currentNode = this.el.content, e === 2 || e === 3) {
       const l = this.el.content.firstChild;
       l.replaceWith(...l.childNodes);
     }
-    for (; (r = v.nextNode()) !== null && o.length < h; ) {
-      if (r.nodeType === 1) {
-        if (r.hasAttributes()) for (const l of r.getAttributeNames()) if (l.endsWith($t)) {
-          const m = u[n++], $ = r.getAttribute(l).split(g), H = /([.?@])?(.*)/.exec(m);
-          o.push({ type: 1, index: i, name: H[2], strings: $, ctor: H[1] === "." ? Rt : H[1] === "?" ? Ht : H[1] === "@" ? zt : D }), r.removeAttribute(l);
-        } else l.startsWith(g) && (o.push({ type: 6, index: i }), r.removeAttribute(l));
-        if (_t.test(r.tagName)) {
-          const l = r.textContent.split(g), m = l.length - 1;
-          if (m > 0) {
-            r.textContent = V ? V.emptyScript : "";
-            for (let $ = 0; $ < m; $++) r.append(l[$], O()), v.nextNode(), o.push({ type: 2, index: ++i });
-            r.append(l[m], O());
+    for (; (i = v.nextNode()) !== null && o.length < h; ) {
+      if (i.nodeType === 1) {
+        if (i.hasAttributes()) for (const l of i.getAttributeNames()) if (l.endsWith(gt)) {
+          const g = u[n++], f = i.getAttribute(l).split($), R = /([.?@])?(.*)/.exec(g);
+          o.push({ type: 1, index: a, name: R[2], strings: f, ctor: R[1] === "." ? Nt : R[1] === "?" ? Rt : R[1] === "@" ? Ht : V }), i.removeAttribute(l);
+        } else l.startsWith($) && (o.push({ type: 6, index: a }), i.removeAttribute(l));
+        if ($t.test(i.tagName)) {
+          const l = i.textContent.split($), g = l.length - 1;
+          if (g > 0) {
+            i.textContent = L ? L.emptyScript : "";
+            for (let f = 0; f < g; f++) i.append(l[f], M()), v.nextNode(), o.push({ type: 2, index: ++a });
+            i.append(l[g], M());
           }
         }
-      } else if (r.nodeType === 8) if (r.data === gt) o.push({ type: 2, index: i });
+      } else if (i.nodeType === 8) if (i.data === ft) o.push({ type: 2, index: a });
       else {
         let l = -1;
-        for (; (l = r.data.indexOf(g, l + 1)) !== -1; ) o.push({ type: 7, index: i }), l += g.length - 1;
+        for (; (l = i.data.indexOf($, l + 1)) !== -1; ) o.push({ type: 7, index: a }), l += $.length - 1;
       }
-      i++;
+      a++;
     }
   }
   static createElement(t, e) {
-    const s = b.createElement("template");
+    const s = _.createElement("template");
     return s.innerHTML = t, s;
   }
 }
-function S(a, t, e = a, s) {
-  if (t === E) return t;
-  let r = s !== void 0 ? e._$Co?.[s] : e._$Cl;
-  const i = j(t) ? void 0 : t._$litDirective$;
-  return r?.constructor !== i && (r?._$AO?.(!1), i === void 0 ? r = void 0 : (r = new i(a), r._$AT(a, e, s)), s !== void 0 ? (e._$Co ??= [])[s] = r : e._$Cl = r), r !== void 0 && (t = S(a, r._$AS(a, t.values), r, s)), t;
+function S(r, t, e = r, s) {
+  if (t === A) return t;
+  let i = s !== void 0 ? e._$Co?.[s] : e._$Cl;
+  const a = U(t) ? void 0 : t._$litDirective$;
+  return i?.constructor !== a && (i?._$AO?.(!1), a === void 0 ? i = void 0 : (i = new a(r), i._$AT(r, e, s)), s !== void 0 ? (e._$Co ??= [])[s] = i : e._$Cl = i), i !== void 0 && (t = S(r, i._$AS(r, t.values), i, s)), t;
 }
-class Mt {
+class Ot {
   constructor(t, e) {
     this._$AV = [], this._$AN = void 0, this._$AD = t, this._$AM = e;
   }
@@ -335,29 +335,29 @@ class Mt {
     return this._$AM._$AU;
   }
   u(t) {
-    const { el: { content: e }, parts: s } = this._$AD, r = (t?.creationScope ?? b).importNode(e, !0);
-    v.currentNode = r;
-    let i = v.nextNode(), n = 0, h = 0, o = s[0];
+    const { el: { content: e }, parts: s } = this._$AD, i = (t?.creationScope ?? _).importNode(e, !0);
+    v.currentNode = i;
+    let a = v.nextNode(), n = 0, h = 0, o = s[0];
     for (; o !== void 0; ) {
       if (n === o.index) {
-        let c;
-        o.type === 2 ? c = new R(i, i.nextSibling, this, t) : o.type === 1 ? c = new o.ctor(i, o.name, o.strings, this, t) : o.type === 6 && (c = new qt(i, this, t)), this._$AV.push(c), o = s[++h];
+        let d;
+        o.type === 2 ? d = new N(a, a.nextSibling, this, t) : o.type === 1 ? d = new o.ctor(a, o.name, o.strings, this, t) : o.type === 6 && (d = new zt(a, this, t)), this._$AV.push(d), o = s[++h];
       }
-      n !== o?.index && (i = v.nextNode(), n++);
+      n !== o?.index && (a = v.nextNode(), n++);
     }
-    return v.currentNode = b, r;
+    return v.currentNode = _, i;
   }
   p(t) {
     let e = 0;
     for (const s of this._$AV) s !== void 0 && (s.strings !== void 0 ? (s._$AI(t, s, e), e += s.strings.length - 2) : s._$AI(t[e])), e++;
   }
 }
-class R {
+class N {
   get _$AU() {
     return this._$AM?._$AU ?? this._$Cv;
   }
-  constructor(t, e, s, r) {
-    this.type = 2, this._$AH = d, this._$AN = void 0, this._$AA = t, this._$AB = e, this._$AM = s, this.options = r, this._$Cv = r?.isConnected ?? !0;
+  constructor(t, e, s, i) {
+    this.type = 2, this._$AH = c, this._$AN = void 0, this._$AA = t, this._$AB = e, this._$AM = s, this.options = i, this._$Cv = i?.isConnected ?? !0;
   }
   get parentNode() {
     let t = this._$AA.parentNode;
@@ -371,7 +371,7 @@ class R {
     return this._$AB;
   }
   _$AI(t, e = this) {
-    t = S(this, t, e), j(t) ? t === d || t == null || t === "" ? (this._$AH !== d && this._$AR(), this._$AH = d) : t !== this._$AH && t !== E && this._(t) : t._$litType$ !== void 0 ? this.$(t) : t.nodeType !== void 0 ? this.T(t) : Ot(t) ? this.k(t) : this._(t);
+    t = S(this, t, e), U(t) ? t === c || t == null || t === "" ? (this._$AH !== c && this._$AR(), this._$AH = c) : t !== this._$AH && t !== A && this._(t) : t._$litType$ !== void 0 ? this.$(t) : t.nodeType !== void 0 ? this.T(t) : Mt(t) ? this.k(t) : this._(t);
   }
   O(t) {
     return this._$AA.parentNode.insertBefore(t, this._$AB);
@@ -380,26 +380,26 @@ class R {
     this._$AH !== t && (this._$AR(), this._$AH = this.O(t));
   }
   _(t) {
-    this._$AH !== d && j(this._$AH) ? this._$AA.nextSibling.data = t : this.T(b.createTextNode(t)), this._$AH = t;
+    this._$AH !== c && U(this._$AH) ? this._$AA.nextSibling.data = t : this.T(_.createTextNode(t)), this._$AH = t;
   }
   $(t) {
-    const { values: e, _$litType$: s } = t, r = typeof s == "number" ? this._$AC(t) : (s.el === void 0 && (s.el = N.createElement(yt(s.h, s.h[0]), this.options)), s);
-    if (this._$AH?._$AD === r) this._$AH.p(e);
+    const { values: e, _$litType$: s } = t, i = typeof s == "number" ? this._$AC(t) : (s.el === void 0 && (s.el = j.createElement(yt(s.h, s.h[0]), this.options)), s);
+    if (this._$AH?._$AD === i) this._$AH.p(e);
     else {
-      const i = new Mt(r, this), n = i.u(this.options);
-      i.p(e), this.T(n), this._$AH = i;
+      const a = new Ot(i, this), n = a.u(this.options);
+      a.p(e), this.T(n), this._$AH = a;
     }
   }
   _$AC(t) {
     let e = pt.get(t.strings);
-    return e === void 0 && pt.set(t.strings, e = new N(t)), e;
+    return e === void 0 && pt.set(t.strings, e = new j(t)), e;
   }
   k(t) {
-    Z(this._$AH) || (this._$AH = [], this._$AR());
+    Q(this._$AH) || (this._$AH = [], this._$AR());
     const e = this._$AH;
-    let s, r = 0;
-    for (const i of t) r === e.length ? e.push(s = new R(this.O(O()), this.O(O()), this, this.options)) : s = e[r], s._$AI(i), r++;
-    r < e.length && (this._$AR(s && s._$AB.nextSibling, r), e.length = r);
+    let s, i = 0;
+    for (const a of t) i === e.length ? e.push(s = new N(this.O(M()), this.O(M()), this, this.options)) : s = e[i], s._$AI(a), i++;
+    i < e.length && (this._$AR(s && s._$AB.nextSibling, i), e.length = i);
   }
   _$AR(t = this._$AA.nextSibling, e) {
     for (this._$AP?.(!1, !0, e); t !== this._$AB; ) {
@@ -411,61 +411,61 @@ class R {
     this._$AM === void 0 && (this._$Cv = t, this._$AP?.(t));
   }
 }
-class D {
+class V {
   get tagName() {
     return this.element.tagName;
   }
   get _$AU() {
     return this._$AM._$AU;
   }
-  constructor(t, e, s, r, i) {
-    this.type = 1, this._$AH = d, this._$AN = void 0, this.element = t, this.name = e, this._$AM = r, this.options = i, s.length > 2 || s[0] !== "" || s[1] !== "" ? (this._$AH = Array(s.length - 1).fill(new String()), this.strings = s) : this._$AH = d;
+  constructor(t, e, s, i, a) {
+    this.type = 1, this._$AH = c, this._$AN = void 0, this.element = t, this.name = e, this._$AM = i, this.options = a, s.length > 2 || s[0] !== "" || s[1] !== "" ? (this._$AH = Array(s.length - 1).fill(new String()), this.strings = s) : this._$AH = c;
   }
-  _$AI(t, e = this, s, r) {
-    const i = this.strings;
+  _$AI(t, e = this, s, i) {
+    const a = this.strings;
     let n = !1;
-    if (i === void 0) t = S(this, t, e, 0), n = !j(t) || t !== this._$AH && t !== E, n && (this._$AH = t);
+    if (a === void 0) t = S(this, t, e, 0), n = !U(t) || t !== this._$AH && t !== A, n && (this._$AH = t);
     else {
       const h = t;
-      let o, c;
-      for (t = i[0], o = 0; o < i.length - 1; o++) c = S(this, h[s + o], e, o), c === E && (c = this._$AH[o]), n ||= !j(c) || c !== this._$AH[o], c === d ? t = d : t !== d && (t += (c ?? "") + i[o + 1]), this._$AH[o] = c;
+      let o, d;
+      for (t = a[0], o = 0; o < a.length - 1; o++) d = S(this, h[s + o], e, o), d === A && (d = this._$AH[o]), n ||= !U(d) || d !== this._$AH[o], d === c ? t = c : t !== c && (t += (d ?? "") + a[o + 1]), this._$AH[o] = d;
     }
-    n && !r && this.j(t);
+    n && !i && this.j(t);
   }
   j(t) {
-    t === d ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, t ?? "");
+    t === c ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, t ?? "");
   }
 }
-class Rt extends D {
+class Nt extends V {
   constructor() {
     super(...arguments), this.type = 3;
   }
   j(t) {
-    this.element[this.name] = t === d ? void 0 : t;
+    this.element[this.name] = t === c ? void 0 : t;
   }
 }
-class Ht extends D {
+class Rt extends V {
   constructor() {
     super(...arguments), this.type = 4;
   }
   j(t) {
-    this.element.toggleAttribute(this.name, !!t && t !== d);
+    this.element.toggleAttribute(this.name, !!t && t !== c);
   }
 }
-class zt extends D {
-  constructor(t, e, s, r, i) {
-    super(t, e, s, r, i), this.type = 5;
+class Ht extends V {
+  constructor(t, e, s, i, a) {
+    super(t, e, s, i, a), this.type = 5;
   }
   _$AI(t, e = this) {
-    if ((t = S(this, t, e, 0) ?? d) === E) return;
-    const s = this._$AH, r = t === d && s !== d || t.capture !== s.capture || t.once !== s.once || t.passive !== s.passive, i = t !== d && (s === d || r);
-    r && this.element.removeEventListener(this.name, this, s), i && this.element.addEventListener(this.name, this, t), this._$AH = t;
+    if ((t = S(this, t, e, 0) ?? c) === A) return;
+    const s = this._$AH, i = t === c && s !== c || t.capture !== s.capture || t.once !== s.once || t.passive !== s.passive, a = t !== c && (s === c || i);
+    i && this.element.removeEventListener(this.name, this, s), a && this.element.addEventListener(this.name, this, t), this._$AH = t;
   }
   handleEvent(t) {
     typeof this._$AH == "function" ? this._$AH.call(this.options?.host ?? this.element, t) : this._$AH.handleEvent(t);
   }
 }
-class qt {
+class zt {
   constructor(t, e, s) {
     this.element = t, this.type = 6, this._$AN = void 0, this._$AM = e, this.options = s;
   }
@@ -476,24 +476,24 @@ class qt {
     S(this, t);
   }
 }
-const Vt = K.litHtmlPolyfillSupport;
-Vt?.(N, R), (K.litHtmlVersions ??= []).push("3.3.1");
-const Lt = (a, t, e) => {
+const Lt = J.litHtmlPolyfillSupport;
+Lt?.(j, N), (J.litHtmlVersions ??= []).push("3.3.1");
+const qt = (r, t, e) => {
   const s = e?.renderBefore ?? t;
-  let r = s._$litPart$;
-  if (r === void 0) {
-    const i = e?.renderBefore ?? null;
-    s._$litPart$ = r = new R(t.insertBefore(O(), i), i, void 0, e ?? {});
+  let i = s._$litPart$;
+  if (i === void 0) {
+    const a = e?.renderBefore ?? null;
+    s._$litPart$ = i = new N(t.insertBefore(M(), a), a, void 0, e ?? {});
   }
-  return r._$AI(a), r;
+  return i._$AI(r), i;
 };
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const X = globalThis;
-class _ extends w {
+const Z = globalThis;
+let y = class extends x {
   constructor() {
     super(...arguments), this.renderOptions = { host: this }, this._$Do = void 0;
   }
@@ -503,7 +503,7 @@ class _ extends w {
   }
   update(t) {
     const e = this.render();
-    this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(t), this._$Do = Lt(e, this.renderRoot, this.renderOptions);
+    this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(t), this._$Do = qt(e, this.renderRoot, this.renderOptions);
   }
   connectedCallback() {
     super.connectedCallback(), this._$Do?.setConnected(!0);
@@ -512,263 +512,275 @@ class _ extends w {
     super.disconnectedCallback(), this._$Do?.setConnected(!1);
   }
   render() {
-    return E;
+    return A;
   }
-}
-_._$litElement$ = !0, _.finalized = !0, X.litElementHydrateSupport?.({ LitElement: _ });
-const Jt = X.litElementPolyfillSupport;
-Jt?.({ LitElement: _ });
-(X.litElementVersions ??= []).push("4.2.1");
+};
+y._$litElement$ = !0, y.finalized = !0, Z.litElementHydrateSupport?.({ LitElement: y });
+const Dt = Z.litElementPolyfillSupport;
+Dt?.({ LitElement: y });
+(Z.litElementVersions ??= []).push("4.2.1");
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const Dt = { attribute: !0, type: String, converter: q, reflect: !1, hasChanged: G }, It = (a = Dt, t, e) => {
-  const { kind: s, metadata: r } = e;
-  let i = globalThis.litPropertyMetadata.get(r);
-  if (i === void 0 && globalThis.litPropertyMetadata.set(r, i = /* @__PURE__ */ new Map()), s === "setter" && ((a = Object.create(a)).wrapped = !0), i.set(e.name, a), s === "accessor") {
+const It = { attribute: !0, type: String, converter: z, reflect: !1, hasChanged: F }, Vt = (r = It, t, e) => {
+  const { kind: s, metadata: i } = e;
+  let a = globalThis.litPropertyMetadata.get(i);
+  if (a === void 0 && globalThis.litPropertyMetadata.set(i, a = /* @__PURE__ */ new Map()), s === "setter" && ((r = Object.create(r)).wrapped = !0), a.set(e.name, r), s === "accessor") {
     const { name: n } = e;
     return { set(h) {
       const o = t.get.call(this);
-      t.set.call(this, h), this.requestUpdate(n, o, a);
+      t.set.call(this, h), this.requestUpdate(n, o, r);
     }, init(h) {
-      return h !== void 0 && this.C(n, void 0, a, h), h;
+      return h !== void 0 && this.C(n, void 0, r, h), h;
     } };
   }
   if (s === "setter") {
     const { name: n } = e;
     return function(h) {
       const o = this[n];
-      t.call(this, h), this.requestUpdate(n, o, a);
+      t.call(this, h), this.requestUpdate(n, o, r);
     };
   }
   throw Error("Unsupported decorator location: " + s);
 };
-function C(a) {
-  return (t, e) => typeof e == "object" ? It(a, t, e) : ((s, r, i) => {
-    const n = r.hasOwnProperty(i);
-    return r.constructor.createProperty(i, s), n ? Object.getOwnPropertyDescriptor(r, i) : void 0;
-  })(a, t, e);
+function C(r) {
+  return (t, e) => typeof e == "object" ? Vt(r, t, e) : ((s, i, a) => {
+    const n = i.hasOwnProperty(a);
+    return i.constructor.createProperty(a, s), n ? Object.getOwnPropertyDescriptor(i, a) : void 0;
+  })(r, t, e);
 }
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-function P(a) {
-  return C({ ...a, state: !0, attribute: !1 });
+function w(r) {
+  return C({ ...r, state: !0, attribute: !1 });
 }
-class Bt {
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+const Bt = { CHILD: 2 }, Wt = (r) => (...t) => ({ _$litDirective$: r, values: t });
+class Kt {
   constructor(t) {
-    this.baseUrl = t.baseUrl.replace(/\/+$/, ""), this.timeoutMs = t.timeoutMs ?? 8e3, this.fetchFn = t.fetchFn ?? fetch;
   }
-  async _getJSON(t) {
-    const e = new AbortController(), s = setTimeout(() => e.abort(), this.timeoutMs);
-    try {
-      const r = await this.fetchFn(t, { signal: e.signal });
-      if (!r.ok) throw new Error(`HTTP ${r.status}`);
-      return await r.json();
-    } finally {
-      clearTimeout(s);
-    }
+  get _$AU() {
+    return this._$AM._$AU;
+  }
+  _$AT(t, e, s) {
+    this._$Ct = t, this._$AM = e, this._$Ci = s;
+  }
+  _$AS(t, e) {
+    return this.update(t, e);
+  }
+  update(t, e) {
+    return this.render(...e);
+  }
+}
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+class W extends Kt {
+  constructor(t) {
+    if (super(t), this.it = c, t.type !== Bt.CHILD) throw Error(this.constructor.directiveName + "() can only be used in child bindings");
+  }
+  render(t) {
+    if (t === c || t == null) return this._t = void 0, this.it = t;
+    if (t === A) return t;
+    if (typeof t != "string") throw Error(this.constructor.directiveName + "() called with a non-string value");
+    if (t === this.it) return this._t;
+    this.it = t;
+    const e = [t];
+    return e.raw = e, this._t = { _$litType$: this.constructor.resultType, strings: e, values: [] };
+  }
+}
+W.directiveName = "unsafeHTML", W.resultType = 1;
+const Yt = Wt(W), q = [
+  // Surah 1: Al-Fatiha
+  {
+    surah: 1,
+    ayah: 1,
+    text: { arabic: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ" },
+    translations: {
+      id: "Dengan nama Allah Yang Maha Pengasih lagi Maha Penyayang",
+      en: "In the name of Allah, the Entirely Merciful, the Especially Merciful"
+    },
+    meta: { juz: 1, page: 1 }
+  },
+  {
+    surah: 1,
+    ayah: 2,
+    text: { arabic: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ" },
+    translations: {
+      id: "Segala puji bagi Allah, Tuhan semesta alam",
+      en: "All praise is due to Allah, Lord of the worlds"
+    },
+    meta: { juz: 1, page: 1 }
+  },
+  {
+    surah: 1,
+    ayah: 3,
+    text: { arabic: "الرَّحْمَٰنِ الرَّحِيمِ" },
+    translations: {
+      id: "Yang Maha Pengasih, Maha Penyayang",
+      en: "The Entirely Merciful, the Especially Merciful"
+    },
+    meta: { juz: 1, page: 1 }
+  },
+  {
+    surah: 1,
+    ayah: 4,
+    text: { arabic: "مَالِكِ يَوْمِ الدِّينِ" },
+    translations: {
+      id: "Pemilik hari pembalasan",
+      en: "Sovereign of the Day of Recompense"
+    },
+    meta: { juz: 1, page: 1 }
+  },
+  {
+    surah: 1,
+    ayah: 5,
+    text: { arabic: "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ" },
+    translations: {
+      id: "Hanya kepada-Mu kami menyembah dan hanya kepada-Mu kami mohon pertolongan",
+      en: "It is You we worship and You we ask for help"
+    },
+    meta: { juz: 1, page: 1 }
+  },
+  {
+    surah: 1,
+    ayah: 6,
+    text: { arabic: "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ" },
+    translations: {
+      id: "Tunjukilah kami jalan yang lurus",
+      en: "Guide us to the straight path"
+    },
+    meta: { juz: 1, page: 1 }
+  },
+  {
+    surah: 1,
+    ayah: 7,
+    text: {
+      arabic: "صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ"
+    },
+    translations: {
+      id: "Jalan orang-orang yang Engkau beri nikmat, bukan jalan mereka yang dimurkai, dan bukan pula jalan mereka yang sesat",
+      en: "The path of those upon whom You have bestowed favor, not of those who have evoked Your anger or of those who are astray"
+    },
+    meta: { juz: 1, page: 1 }
+  },
+  // Surah 2: Al-Baqarah (1–5)
+  {
+    surah: 2,
+    ayah: 1,
+    text: { arabic: "الم" },
+    translations: {
+      id: "Alif, Lam, Mim",
+      en: "Alif, Lam, Meem"
+    },
+    meta: { juz: 1, page: 2 }
+  },
+  {
+    surah: 2,
+    ayah: 2,
+    text: {
+      arabic: "ذَٰلِكَ الْكِتَابُ لَا رَيْبَ ۛ فِيهِ ۛ هُدًى لِلْمُتَّقِينَ"
+    },
+    translations: {
+      id: "Kitab (Al-Qur’an) ini tidak ada keraguan padanya; menjadi petunjuk bagi mereka yang bertakwa",
+      en: "This is the Book about which there is no doubt, a guidance for those conscious of Allah"
+    },
+    meta: { juz: 1, page: 2 }
+  },
+  {
+    surah: 2,
+    ayah: 3,
+    text: {
+      arabic: "الَّذِينَ يُؤْمِنُونَ بِالْغَيْبِ وَيُقِيمُونَ الصَّلَاةَ وَمِمَّا رَزَقْنَاهُمْ يُنْفِقُونَ"
+    },
+    translations: {
+      id: "Yaitu mereka yang beriman kepada yang gaib, menegakkan salat, dan menafkahkan sebagian rezeki yang Kami berikan",
+      en: "Who believe in the unseen, establish prayer, and spend out of what We have provided for them"
+    },
+    meta: { juz: 1, page: 2 }
+  },
+  {
+    surah: 2,
+    ayah: 4,
+    text: {
+      arabic: "وَالَّذِينَ يُؤْمِنُونَ بِمَا أُنْزِلَ إِلَيْكَ وَمَا أُنْزِلَ مِنْ قَبْلِكَ وَبِالْآخِرَةِ هُمْ يُوقِنُونَ"
+    },
+    translations: {
+      id: "Dan mereka yang beriman kepada Kitab yang diturunkan kepadamu dan Kitab yang diturunkan sebelum kamu, serta mereka yakin akan adanya akhirat",
+      en: "And who believe in what has been revealed to you, and what was revealed before you, and of the Hereafter they are certain [in faith]"
+    },
+    meta: { juz: 1, page: 2 }
+  },
+  {
+    surah: 2,
+    ayah: 5,
+    text: {
+      arabic: "أُولَٰئِكَ عَلَىٰ هُدًى مِنْ رَبِّهِمْ ۖ وَأُولَٰئِكَ هُمُ الْمُفْلِحُونَ"
+    },
+    translations: {
+      id: "Merekalah yang mendapat petunjuk dari Tuhan mereka, dan mereka itulah orang-orang yang beruntung",
+      en: "It is they who will follow guidance from their Lord, and it is they who will be successful"
+    },
+    meta: { juz: 1, page: 2 }
+  }
+], Gt = [
+  {
+    number: 1,
+    name: {
+      arabic: "الفاتحة",
+      transliteration: "Al-Fatiha",
+      translation: { id: "Pembukaan", en: "The Opening" }
+    },
+    revelation: "Meccan",
+    ayahs: q.filter((r) => r.surah === 1)
+  },
+  {
+    number: 2,
+    name: {
+      arabic: "البقرة",
+      transliteration: "Al-Baqarah",
+      translation: { id: "Sapi Betina", en: "The Cow" }
+    },
+    revelation: "Madinan",
+    ayahs: q.filter((r) => r.surah === 2)
+  }
+];
+class Ft {
+  constructor() {
+    this.verses = q, this.surahs = Gt, this.index = new Map(this.verses.map((t) => [`${t.surah}:${t.ayah}`, t]));
   }
   async getVerse(t, e) {
-    const s = await this._getJSON(
-      `${this.baseUrl}/verse?surah=${t}&ayah=${e}`
-    );
-    return {
-      surah: s.surah,
-      ayah: s.ayah,
-      text: { arabic: s.text_ar, uthmani: s.text_uth },
-      translations: { id: s.tr_id ?? "", en: s.tr_en ?? "" },
-      meta: { juz: s.juz, page: s.page }
-    };
+    return this.index.get(`${t}:${e}`) ?? void 0;
   }
   async getSurah(t) {
-    const e = await this._getJSON(`${this.baseUrl}/surah/${t}`);
-    return {
-      number: e.number,
-      name: {
-        arabic: e.name_ar,
-        transliteration: e.translit,
-        translation: { en: e.name_en }
-        // tambahkan {id: ...} jika backend punya
-      },
-      revelation: e.revelation,
-      ayahs: e.ayahs.map((s) => ({
-        surah: s.surah,
-        ayah: s.ayah,
-        text: { arabic: s.text_ar },
-        translations: { id: s.tr_id ?? "", en: s.tr_en ?? "" },
-        meta: { juz: s.juz, page: s.page }
-      }))
-    };
+    return this.surahs.find((e) => e.number === t);
   }
   async search(t, e = "id") {
-    return (await this._getJSON(
-      `${this.baseUrl}/search?q=${encodeURIComponent(t)}&lang=${e}`
-    )).map((r) => ({
-      surah: r.surah,
-      ayah: r.ayah,
-      text: { arabic: r.text_ar },
-      translations: { [e]: r.tr ?? "" },
-      meta: { juz: r.juz, page: r.page }
-    }));
-  }
-  async getAllVerses() {
-    const t = [];
-    for (let e = 1; e <= 114; e++)
-      try {
-        const s = await this.getSurah(e);
-        s?.ayahs && t.push(...s.ayahs);
-      } catch {
-      }
-    return t;
-  }
-}
-function mt() {
-  return typeof process < "u" && process.versions?.node;
-}
-class B {
-  async getSurah(t) {
-    console.log("[JsonQuranProvider] getSurah →", t);
-    const s = (await this.loadChapters()).find((r) => r.id === t);
-    if (!s) {
-      console.warn(`[JsonQuranProvider] Surah ${t} tidak ditemukan`);
-      return;
-    }
-    return {
-      number: s.id,
-      name: {
-        arabic: s.name_arabic,
-        transliteration: s.name_simple,
-        translation: { en: s.translated_name.name }
-      },
-      revelation: s.revelation_place === "makka" ? "Meccan" : "Madinan"
-    };
-  }
-  async getVerse(t, e) {
-    console.log(`[JsonQuranProvider] getVerse → ${t}:${e}`);
-    const r = (await this.loadVerses(t)).find(
-      (i) => parseInt(i.verse_key.split(":")[1], 10) === e
+    return this.verses.filter(
+      (s) => (s.translations[e] ?? "").includes(t) || s.text.arabic.includes(t)
     );
-    if (!r) {
-      console.warn(`[JsonQuranProvider] Ayah ${t}:${e} tidak ditemukan`);
-      return;
-    }
-    return this.mapVerse(r);
-  }
-  async search(t, e = "english") {
-    console.log(`[JsonQuranProvider] search → "${t}", lang=${e}`);
-    const s = [], r = await this.loadChapters();
-    for (const i of r)
-      try {
-        const n = await this.loadVerses(i.id);
-        for (const h of n) {
-          const o = h.translations.find(
-            (c) => c.language_name.toLowerCase() === e.toLowerCase()
-          );
-          (h.text_uthmani.includes(t) || o && o.text.includes(t)) && s.push(this.mapVerse(h));
-        }
-      } catch (n) {
-        console.warn(
-          `[JsonQuranProvider] Skip surah ${i.id}, error loadVerses:`,
-          n
-        );
-        continue;
-      }
-    return console.log(`[JsonQuranProvider] search result count = ${s.length}`), s;
   }
   async getAllVerses() {
-    console.log("[JsonQuranProvider] getAllVerses");
-    const t = await this.loadChapters(), e = [];
-    for (const s of t)
-      try {
-        const r = await this.loadVerses(s.id);
-        e.push(...r.map((i) => this.mapVerse(i)));
-      } catch (r) {
-        console.warn(
-          `[JsonQuranProvider] Skip surah ${s.id}, error loadVerses:`,
-          r
-        );
-        continue;
-      }
-    return console.log(
-      `[JsonQuranProvider] getAllVerses total loaded = ${e.length}`
-    ), e;
-  }
-  // === Private helpers ===
-  async loadChapters() {
-    if (this.chaptersCache) return this.chaptersCache.chapters;
-    if (mt()) {
-      const t = await Promise.resolve().then(() => A), e = await Promise.resolve().then(() => A), { fileURLToPath: s } = await Promise.resolve().then(() => A), r = s(import.meta.url), i = e.dirname(r), n = e.resolve(i, "../../public/chapters.json"), h = t.readFileSync(n, "utf-8"), o = JSON.parse(h);
-      return this.chaptersCache = o, o.chapters;
-    } else {
-      const t = "/quran-data/chapters.json";
-      console.log("[JsonQuranProvider] loadChapters (browser) fetch:", t);
-      const s = await (await fetch(t)).json();
-      return this.chaptersCache = s, s.chapters;
-    }
-  }
-  async loadVerses(t) {
-    if (mt()) {
-      const e = await Promise.resolve().then(() => A), s = await Promise.resolve().then(() => A), { fileURLToPath: r } = await Promise.resolve().then(() => A), i = r(import.meta.url), n = s.dirname(i), h = s.resolve(
-        n,
-        `../../public/verses-surah-${t}.json`
-      ), o = e.readFileSync(h, "utf-8");
-      return JSON.parse(o).verses;
-    } else {
-      const e = `/quran-data/verses-surah-${t}.json`;
-      return console.log("[JsonQuranProvider] loadVerses (browser) fetch:", e), (await (await fetch(e)).json()).verses;
-    }
-  }
-  mapVerse(t) {
-    return {
-      surah: t.chapter_id,
-      ayah: parseInt(t.verse_key.split(":")[1], 10),
-      text: { arabic: t.text_uthmani },
-      translations: t.translations.map(
-        (e) => ({
-          id: e.id,
-          language_name: e.language_name,
-          text: e.text
-        })
-      ),
-      meta: {
-        juz: t.juz_number,
-        page: t.page_number,
-        hizb: t.hizb_number,
-        rubElHizb: t.rub_el_hizb_number,
-        sajdah: t.sajdah
-      }
-    };
+    return q;
   }
 }
-function Qt(a) {
-  switch (a.dataProvider) {
-    case "api": {
-      const t = a.providers?.api?.baseUrl;
-      return t ? new Bt({
-        baseUrl: t,
-        timeoutMs: a.providers?.api?.timeoutMs
-      }) : (console.warn(
-        "⚠️ Missing providers.api.baseUrl, fallback to mock JSON."
-      ), new B());
-    }
-    case "db":
-      return console.warn("⚠️ DB provider not implemented. Fallback to mock JSON."), new B();
-    case "mock":
-    default:
-      return new B();
-  }
-}
-var Wt = Object.defineProperty, vt = (a, t, e, s) => {
-  for (var r = void 0, i = a.length - 1, n; i >= 0; i--)
-    (n = a[i]) && (r = n(t, e, r) || r);
-  return r && Wt(t, e, r), r;
+var Jt = Object.defineProperty, bt = (r, t, e, s) => {
+  for (var i = void 0, a = r.length - 1, n; a >= 0; a--)
+    (n = r[a]) && (i = n(t, e, i) || i);
+  return i && Jt(t, e, i), i;
 };
-const tt = class tt extends _ {
+const tt = class tt extends y {
   constructor() {
     super(...arguments), this.placeholder = "Cari kata...", this.value = "";
   }
@@ -790,7 +802,7 @@ const tt = class tt extends _ {
     />`;
   }
 };
-tt.styles = L`
+tt.styles = D`
     :host {
       display: block;
       margin-bottom: 1rem;
@@ -803,20 +815,20 @@ tt.styles = L`
       font-size: 1rem;
     }
   `;
-let M = tt;
-vt([
+let O = tt;
+bt([
   C({ type: String })
-], M.prototype, "placeholder");
-vt([
-  P()
-], M.prototype, "value");
-customElements.get("quran-search-box") || customElements.define("quran-search-box", M);
-var Ft = Object.defineProperty, Y = (a, t, e, s) => {
-  for (var r = void 0, i = a.length - 1, n; i >= 0; i--)
-    (n = a[i]) && (r = n(t, e, r) || r);
-  return r && Ft(t, e, r), r;
+], O.prototype, "placeholder");
+bt([
+  w()
+], O.prototype, "value");
+customElements.get("quran-search-box") || customElements.define("quran-search-box", O);
+var Qt = Object.defineProperty, X = (r, t, e, s) => {
+  for (var i = void 0, a = r.length - 1, n; a >= 0; a--)
+    (n = r[a]) && (i = n(t, e, i) || i);
+  return i && Qt(t, e, i), i;
 };
-const et = class et extends _ {
+const et = class et extends y {
   constructor() {
     super(...arguments), this.value = 1, this.chapters = [], this.loading = !1;
   }
@@ -875,7 +887,7 @@ const et = class et extends _ {
     `;
   }
 };
-et.styles = L`
+et.styles = D`
     :host {
       display: block;
       margin-bottom: 0.5rem;
@@ -896,28 +908,28 @@ et.styles = L`
       color: #444;
     }
   `;
-let x = et;
-Y([
+let k = et;
+X([
   C({ type: Number })
-], x.prototype, "value");
-Y([
-  P()
-], x.prototype, "chapters");
-Y([
-  P()
-], x.prototype, "loading");
-customElements.get("quran-surah-selector") || customElements.define("quran-surah-selector", x);
-const st = class st extends _ {
+], k.prototype, "value");
+X([
+  w()
+], k.prototype, "chapters");
+X([
+  w()
+], k.prototype, "loading");
+customElements.get("quran-surah-selector") || customElements.define("quran-surah-selector", k);
+const st = class st extends y {
   onSubmit(t) {
     t.preventDefault();
-    const r = (this.shadowRoot?.querySelector("input")?.value || "").trim().match(/^(\d{1,3}):(\d{1,3})$/);
-    if (!r) {
+    const i = (this.shadowRoot?.querySelector("input")?.value || "").trim().match(/^(\d{1,3}):(\d{1,3})$/);
+    if (!i) {
       alert('Format harus "surah:ayat", misal 2:255');
       return;
     }
-    const i = Number(r[1]), n = Number(r[2]);
+    const a = Number(i[1]), n = Number(i[2]);
     window.dispatchEvent(
-      new CustomEvent("quran.goto", { detail: { surah: i, ayah: n } })
+      new CustomEvent("quran.goto", { detail: { surah: a, ayah: n } })
     );
   }
   render() {
@@ -930,7 +942,7 @@ const st = class st extends _ {
     `;
   }
 };
-st.styles = L`
+st.styles = D`
     :host {
       display: block;
       margin-bottom: 0.5rem;
@@ -954,23 +966,29 @@ st.styles = L`
       cursor: pointer;
     }
   `;
-let Q = st;
-customElements.get("quran-goto") || customElements.define("quran-goto", Q);
-var Gt = Object.defineProperty, k = (a, t, e, s) => {
-  for (var r = void 0, i = a.length - 1, n; i >= 0; i--)
-    (n = a[i]) && (r = n(t, e, r) || r);
-  return r && Gt(t, e, r), r;
+let K = st;
+customElements.get("quran-goto") || customElements.define("quran-goto", K);
+var Zt = Object.defineProperty, E = (r, t, e, s) => {
+  for (var i = void 0, a = r.length - 1, n; a >= 0; a--)
+    (n = r[a]) && (i = n(t, e, i) || i);
+  return i && Zt(t, e, i), i;
 };
-const rt = class rt extends _ {
+const it = class it extends y {
   constructor() {
-    super(...arguments), this.surah = 1, this.ayah = 1, this.lang = "id", this.provider = Qt({
-      dataProvider: "mock"
-    }), this.searchResults = [], this.loading = !1, this._onGoto = (t) => {
+    super(...arguments), this.surah = 1, this.ayah = 1, this.lang = "id", this.provider = new Ft(), this.searchResults = [], this.loading = !1, this.lastQuery = "", this._onGoto = (t) => {
       const { surah: e, ayah: s } = t.detail;
       typeof e == "number" && (this.surah = e), typeof s == "number" && (this.ayah = s);
     }, this._onSearch = (t) => {
       const { query: e } = t.detail;
       this.runSearch(e);
+    }, this.copyCurrent = () => {
+      if (!this.verse) return;
+      const t = `${this.verse.text.arabic}
+${this.getTranslation(
+        this.verse,
+        this.lang
+      )}`;
+      navigator.clipboard.writeText(t), alert("✅ Ayat disalin ke clipboard!");
     };
   }
   connectedCallback() {
@@ -986,14 +1004,14 @@ const rt = class rt extends _ {
     this.loading = !0, this.verse = await this.provider.getVerse(this.surah, this.ayah), this.loading = !1;
   }
   async runSearch(t) {
-    if (!t) {
+    if (this.lastQuery = t, !t) {
       this.searchResults = [];
       return;
     }
     this.loading = !0;
     const e = await this.provider.getAllVerses();
     this.searchResults = e.filter(
-      (s) => this.getTranslation(s, this.lang).toLowerCase().includes(t.toLowerCase())
+      (s) => this.getTranslation(s, this.lang).toLowerCase().includes(t.toLowerCase()) || s.text.arabic.includes(t)
     ), this.loading = !1;
   }
   nextAyah() {
@@ -1002,29 +1020,25 @@ const rt = class rt extends _ {
   prevAyah() {
     this.ayah > 1 && this.ayah--;
   }
-  // 🔹 Helper anti-break untuk translations
+  // === Helpers ===
   getTranslation(t, e) {
     const s = t.translations;
     return s ? Array.isArray(s) ? s.find(
-      (i) => i.language_name?.toLowerCase().startsWith(e.toLowerCase())
+      (a) => a.language_name?.toLowerCase().startsWith(e.toLowerCase())
     )?.text ?? "[Terjemahan tidak tersedia]" : s[e] ?? "[Terjemahan tidak tersedia]" : "[Terjemahan tidak tersedia]";
   }
-  async copyCurrent() {
-    const t = `${this.surah}:${this.ayah}`, e = this.verse?.text?.arabic ?? "", s = this.verse ? this.getTranslation(this.verse, this.lang) : "[Terjemahan tidak tersedia]", r = s ? `${e}
-${s}
-(${t})` : `${e}
-(${t})`;
-    try {
-      if (navigator.clipboard?.writeText)
-        await navigator.clipboard.writeText(r);
-      else {
-        const i = document.createElement("textarea");
-        i.value = r, i.style.position = "fixed", i.style.left = "-9999px", document.body.appendChild(i), i.select(), document.execCommand("copy"), document.body.removeChild(i);
-      }
-      console.log("[QuranViewer] Copied:", t);
-    } catch (i) {
-      console.warn("[QuranViewer] Copy failed:", i), alert("Gagal menyalin teks.");
-    }
+  highlight(t, e) {
+    if (!e) return t;
+    const s = new RegExp(`(${e})`, "gi");
+    return t.replace(s, '<span class="highlight">$1</span>');
+  }
+  goto(t, e) {
+    this.surah = t, this.ayah = e, this.searchResults = [];
+  }
+  copyVerse(t) {
+    const e = `${t.text.arabic}
+${this.getTranslation(t, this.lang)}`;
+    navigator.clipboard.writeText(e), alert("✅ Ayat disalin ke clipboard!");
   }
   render() {
     return p`
@@ -1043,9 +1057,18 @@ ${s}
                     <div><strong>${t.surah}:${t.ayah}</strong></div>
                     <div class="ayah" lang="ar" dir="rtl">${t.text.arabic}</div>
                     <div class="translation">
-                      ${this.verse ? this.getTranslation(this.verse, this.lang) : "[Terjemahan tidak tersedia]"}
-                      ?? v.translations?.[this.lang] ?? '[Terjemahan tidak
-                      tersedia]'
+                      ${Yt(
+        this.highlight(
+          this.getTranslation(t, this.lang),
+          this.lastQuery
+        )
+      )}
+                    </div>
+                    <div class="result-actions">
+                      <button @click=${() => this.goto(t.surah, t.ayah)}>
+                        👁 View
+                      </button>
+                      <button @click=${() => this.copyVerse(t)}>📋 Copy</button>
                     </div>
                   </div>
                 `
@@ -1056,13 +1079,10 @@ ${s}
               ${this.verse?.text?.arabic ?? ""}
             </div>
             <div class="translation">
-              ${this.verse ? this.getTranslation(this.verse, this.lang) : "[Terjemahan tidak tersedia]"}
-              ?? this.verse?.translations?.[this.lang] ?? '[Terjemahan tidak
-              tersedia]'
+              ${this.getTranslation(this.verse, this.lang)}
             </div>
             <div class="nav-buttons">
               <button @click=${this.prevAyah}>◀️ Prev</button>
-              <!-- NEW: Copy ditempatkan di tengah agar last-child tetap Next -->
               <button @click=${this.copyCurrent}>📋 Copy</button>
               <button @click=${this.nextAyah}>Next ▶️</button>
             </div>
@@ -1077,7 +1097,9 @@ ${s}
     this.provider = t, this.loadVerse();
   }
 };
-rt.styles = L`
+it.styles = D`
+    @import url('https://fonts.googleapis.com/css2?family=Amiri&display=swap');
+
     :host {
       display: block;
       padding: 1rem;
@@ -1143,6 +1165,18 @@ rt.styles = L`
     .result .ayah {
       font-size: 1.25rem;
     }
+    .highlight {
+      background: yellow;
+      font-weight: bold;
+    }
+    .result-actions {
+      margin-top: 0.3rem;
+      text-align: right;
+    }
+    .result-actions button {
+      font-size: 0.8rem;
+      padding: 0.2rem 0.5rem;
+    }
     @media (max-width: 600px) {
       :host {
         padding: 0.5rem;
@@ -1155,36 +1189,36 @@ rt.styles = L`
       }
     }
   `;
-let f = rt;
-k([
+let m = it;
+E([
   C({ type: Number })
-], f.prototype, "surah");
-k([
+], m.prototype, "surah");
+E([
   C({ type: Number })
-], f.prototype, "ayah");
-k([
+], m.prototype, "ayah");
+E([
   C({ type: String })
-], f.prototype, "lang");
-k([
-  P()
-], f.prototype, "verse");
-k([
-  P()
-], f.prototype, "searchResults");
-k([
-  P()
-], f.prototype, "loading");
-customElements.get("quran-viewer") || customElements.define("quran-viewer", f);
-function Xt(a) {
-  if (console.log("📖 QuranViewer init dengan host version:", a.version), a.provider) {
+], m.prototype, "lang");
+E([
+  w()
+], m.prototype, "verse");
+E([
+  w()
+], m.prototype, "searchResults");
+E([
+  w()
+], m.prototype, "loading");
+E([
+  w()
+], m.prototype, "lastQuery");
+customElements.get("quran-viewer") || customElements.define("quran-viewer", m);
+function se(r) {
+  if (console.log("📖 QuranViewer init dengan host version:", r.version), r.provider) {
     const t = document.querySelector("quran-view");
-    t && t.setProvider(a.provider);
+    t && t.setProvider(r.provider);
   }
 }
-const A = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null
-}, Symbol.toStringTag, { value: "Module" }));
 export {
-  f as default,
-  Xt as init
+  m as default,
+  se as init
 };

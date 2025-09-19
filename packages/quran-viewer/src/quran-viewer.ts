@@ -2,17 +2,20 @@
 
 import { LitElement, html, css } from 'lit';
 import { property, state } from 'lit/decorators.js';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import type {
   QuranVerse,
   QuranDataProvider,
 } from '../../quran-data/src/quran-contract';
-import { createQuranProvider } from '../../quran-data/src/providers/provider-factory';
+import { QuranMockProvider } from '../../quran-data/src/quran-mock-provider';
 import './components/quran-search-box';
 import './components/quran-surah-selector';
 import './components/quran-goto';
 
 export class QuranViewer extends LitElement {
   static styles = css`
+    @import url('https://fonts.googleapis.com/css2?family=Amiri&display=swap');
+
     :host {
       display: block;
       padding: 1rem;
@@ -78,6 +81,18 @@ export class QuranViewer extends LitElement {
     .result .ayah {
       font-size: 1.25rem;
     }
+    .highlight {
+      background: yellow;
+      font-weight: bold;
+    }
+    .result-actions {
+      margin-top: 0.3rem;
+      text-align: right;
+    }
+    .result-actions button {
+      font-size: 0.8rem;
+      padding: 0.2rem 0.5rem;
+    }
     @media (max-width: 600px) {
       :host {
         padding: 0.5rem;
@@ -95,14 +110,14 @@ export class QuranViewer extends LitElement {
   @property({ type: Number }) ayah = 1;
   @property({ type: String }) lang = 'id';
 
-  private provider: QuranDataProvider = createQuranProvider({
-    dataProvider: 'mock',
-  } as any);
+  private provider: QuranDataProvider = new QuranMockProvider();
 
   @state() private verse?: QuranVerse;
   @state() private searchResults: QuranVerse[] = [];
   @state() private loading = false;
+  @state() private lastQuery = '';
 
+  // === Event Handlers ===
   private _onGoto = (e: Event) => {
     const { surah, ayah } = (e as CustomEvent<{ surah: number; ayah?: number }>)
       .detail;
@@ -141,16 +156,18 @@ export class QuranViewer extends LitElement {
   }
 
   private async runSearch(query: string) {
+    this.lastQuery = query;
     if (!query) {
       this.searchResults = [];
       return;
     }
     this.loading = true;
     const verses = await this.provider.getAllVerses();
-    this.searchResults = verses.filter((v) =>
-      this.getTranslation(v, this.lang)
-        .toLowerCase()
-        .includes(query.toLowerCase())
+    this.searchResults = verses.filter(
+      (v) =>
+        this.getTranslation(v, this.lang)
+          .toLowerCase()
+          .includes(query.toLowerCase()) || v.text.arabic.includes(query)
     );
     this.loading = false;
   }
@@ -163,51 +180,47 @@ export class QuranViewer extends LitElement {
     if (this.ayah > 1) this.ayah--;
   }
 
-  // 🔹 Helper anti-break untuk translations
+  // === Helpers ===
   private getTranslation(v: QuranVerse, lang: string): string {
     const t = (v as any).translations;
     if (!t) return '[Terjemahan tidak tersedia]';
 
-    // format baru: array
     if (Array.isArray(t)) {
       const found = t.find((tr: any) =>
         tr.language_name?.toLowerCase().startsWith(lang.toLowerCase())
       );
       return found?.text ?? '[Terjemahan tidak tersedia]';
     }
-
-    // format lama: dictionary
     return t[lang] ?? '[Terjemahan tidak tersedia]';
   }
 
-  private async copyCurrent() {
-    const ref = `${this.surah}:${this.ayah}`;
-    const ar = this.verse?.text?.arabic ?? '';
-    const tr = this.verse
-      ? this.getTranslation(this.verse, this.lang)
-      : '[Terjemahan tidak tersedia]';
-    const payload = tr ? `${ar}\n${tr}\n(${ref})` : `${ar}\n(${ref})`;
-
-    try {
-      if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(payload);
-      } else {
-        // Fallback
-        const ta = document.createElement('textarea');
-        ta.value = payload;
-        ta.style.position = 'fixed';
-        ta.style.left = '-9999px';
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-      }
-      console.log('[QuranViewer] Copied:', ref);
-    } catch (e) {
-      console.warn('[QuranViewer] Copy failed:', e);
-      alert('Gagal menyalin teks.');
-    }
+  private highlight(text: string, query: string) {
+    if (!query) return text;
+    const regex = new RegExp(`(${query})`, 'gi');
+    return text.replace(regex, `<span class="highlight">$1</span>`);
   }
+
+  private goto(surah: number, ayah: number) {
+    this.surah = surah;
+    this.ayah = ayah;
+    this.searchResults = [];
+  }
+
+  private copyVerse(v: QuranVerse) {
+    const text = `${v.text.arabic}\n${this.getTranslation(v, this.lang)}`;
+    navigator.clipboard.writeText(text);
+    alert('✅ Ayat disalin ke clipboard!');
+  }
+
+  private copyCurrent = () => {
+    if (!this.verse) return;
+    const text = `${this.verse.text.arabic}\n${this.getTranslation(
+      this.verse,
+      this.lang
+    )}`;
+    navigator.clipboard.writeText(text);
+    alert('✅ Ayat disalin ke clipboard!');
+  };
 
   render() {
     return html`
@@ -229,11 +242,18 @@ export class QuranViewer extends LitElement {
                     <div><strong>${v.surah}:${v.ayah}</strong></div>
                     <div class="ayah" lang="ar" dir="rtl">${v.text.arabic}</div>
                     <div class="translation">
-                      ${this.verse
-                        ? this.getTranslation(this.verse, this.lang)
-                        : '[Terjemahan tidak tersedia]'}
-                      ?? v.translations?.[this.lang] ?? '[Terjemahan tidak
-                      tersedia]'
+                      ${unsafeHTML(
+                        this.highlight(
+                          this.getTranslation(v, this.lang),
+                          this.lastQuery
+                        )
+                      )}
+                    </div>
+                    <div class="result-actions">
+                      <button @click=${() => this.goto(v.surah, v.ayah)}>
+                        👁 View
+                      </button>
+                      <button @click=${() => this.copyVerse(v)}>📋 Copy</button>
                     </div>
                   </div>
                 `
@@ -246,15 +266,10 @@ export class QuranViewer extends LitElement {
               ${this.verse?.text?.arabic ?? ''}
             </div>
             <div class="translation">
-              ${this.verse
-                ? this.getTranslation(this.verse, this.lang)
-                : '[Terjemahan tidak tersedia]'}
-              ?? this.verse?.translations?.[this.lang] ?? '[Terjemahan tidak
-              tersedia]'
+              ${this.getTranslation(this.verse, this.lang)}
             </div>
             <div class="nav-buttons">
               <button @click=${this.prevAyah}>◀️ Prev</button>
-              <!-- NEW: Copy ditempatkan di tengah agar last-child tetap Next -->
               <button @click=${this.copyCurrent}>📋 Copy</button>
               <button @click=${this.nextAyah}>Next ▶️</button>
             </div>
