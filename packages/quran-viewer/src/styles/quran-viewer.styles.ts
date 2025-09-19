@@ -82,8 +82,9 @@ export const viewerStyles = css`
   }
 
   .highlight {
-    background: yellow;
-    font-weight: bold;
+    background-color: yellow;
+    padding: 0 2px;
+    border-radius: 2px;
   }
 
   .result-actions {

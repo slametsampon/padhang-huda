@@ -134,7 +134,7 @@ export class QuranViewer extends LitElement {
               .lang=${this.lang}
               .lastQuery=${this.lastQuery}
               .onGoto=${this.goto}
-              .onCopy=${this.copyVerse}
+              .onCopyVerse=${this.copyVerse}
               .getTranslation=${(v: QuranVerse, lang: string) =>
                 this.service.getTranslation(v, lang)}
               .highlight=${(t: string, q: string) =>
