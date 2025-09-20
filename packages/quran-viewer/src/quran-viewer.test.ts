@@ -201,4 +201,83 @@ describe('<quran-viewer>', () => {
 
     expect(el.shadowRoot?.textContent).toContain('بِسْمِ اللَّهِ');
   });
+
+  it('should not render panels by default (legacy layout)', async () => {
+    const el = document.createElement('quran-viewer') as QuranViewer;
+    document.body.appendChild(el);
+
+    await flush();
+    await el.updateComplete;
+
+    expect(el.shadowRoot?.querySelector('quran-left-panel')).toBeNull();
+    expect(el.shadowRoot?.querySelector('quran-right-panel')).toBeNull();
+    // Surah selector masih ada (legacy mode)
+    expect(el.shadowRoot?.querySelector('quran-surah-selector')).toBeTruthy();
+  });
+
+  it('should render left and right panels when usePanels is enabled', async () => {
+    const el = document.createElement('quran-viewer') as any;
+    document.body.appendChild(el);
+
+    el.usePanels = true;
+    await flush();
+    await el.updateComplete;
+
+    expect(el.shadowRoot?.querySelector('quran-left-panel')).toBeTruthy();
+    expect(el.shadowRoot?.querySelector('quran-right-panel')).toBeTruthy();
+    // Surah selector berpindah ke left panel
+    const left = el.shadowRoot?.querySelector('quran-left-panel');
+    expect(left?.querySelector('quran-surah-selector')).toBeTruthy();
+  });
+
+  it('should render verse content inside right panel when usePanels is true', async () => {
+    const el: any = document.createElement('quran-viewer');
+    document.body.appendChild(el);
+
+    el.setProvider(new QuranMockProvider());
+    el.usePanels = true;
+    el.surah = 1;
+    el.ayah = 1;
+    await el.loadVerse();
+    await flush();
+    await el.updateComplete;
+
+    const right = el.shadowRoot?.querySelector('quran-right-panel') as any;
+    expect(right).toBeTruthy();
+
+    // 🔹 akses shadowRoot dari right-panel
+    await right.updateComplete;
+    const rightContent = right.shadowRoot?.textContent ?? '';
+
+    expect(rightContent).toContain('بِسْمِ اللَّهِ');
+    expect(rightContent).toContain('Dengan nama Allah');
+  });
+
+  it('should forward events from right panel to host', async () => {
+    const el: any = document.createElement('quran-viewer');
+    document.body.appendChild(el);
+
+    el.setProvider(new QuranMockProvider());
+    el.usePanels = true;
+    el.surah = 1;
+    el.ayah = 1;
+    await el.loadVerse();
+    await flush();
+    await el.updateComplete;
+
+    const right = el.shadowRoot?.querySelector(
+      'quran-right-panel'
+    ) as HTMLElement;
+    expect(right).toBeTruthy();
+
+    // Klik tombol Next di right panel → host harus pindah ayat
+    const nextBtn = right.shadowRoot?.querySelector(
+      '.nav-buttons button:last-child'
+    ) as HTMLButtonElement;
+    nextBtn.click();
+    await flush();
+    await el.updateComplete;
+
+    expect(el.ayah).toBe(2);
+  });
 });

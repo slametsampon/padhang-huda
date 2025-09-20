@@ -15,6 +15,7 @@ export class QuranSearchBox extends LitElement {
       border: 1px solid #ccc;
       border-radius: 4px;
       font-size: 1rem;
+      box-sizing: border-box;
     }
   `;
 
