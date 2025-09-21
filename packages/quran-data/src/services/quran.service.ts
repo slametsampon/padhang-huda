@@ -45,3 +45,12 @@ export const fetchTafsirBySuratAyat = async (
   nomorAyat: number
 ): Promise<Tafsir | undefined> =>
   tafsirRepo.getBySuratAyat(nomorSurat, nomorAyat);
+
+/**
+ * Cari ayat berdasarkan teks Arab atau terjemahan.
+ * Bisa lintas surat.
+ */
+export const searchQuran = (
+  query: string,
+  lang: string = 'id'
+): Promise<Ayat[]> => ayatRepo.search(query, lang);

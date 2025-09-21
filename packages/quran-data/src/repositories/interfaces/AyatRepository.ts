@@ -4,13 +4,18 @@ import type { Ayat } from '../../../models/ayat.model';
 
 export interface AyatRepository {
   getBySurat(nomorSurat: number): Promise<Ayat[]>;
+
   getBySuratAyat(
     nomorSurat: number,
     nomorAyat: number
   ): Promise<Ayat | undefined>;
+
   getBySuratRange(
     nomorSurat: number,
     from: number,
     to: number
   ): Promise<Ayat[]>;
+
+  // 🔍 Tambahan
+  search(query: string, lang?: string): Promise<Ayat[]>;
 }

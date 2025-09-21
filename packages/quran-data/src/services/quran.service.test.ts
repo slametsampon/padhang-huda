@@ -9,6 +9,7 @@ import {
   fetchAyatBySuratRange,
   fetchTafsirBySurat,
   fetchTafsirBySuratAyat,
+  searchQuran, // 🔍 tambahkan
 } from './quran.service';
 
 describe('Quran Service (Mock)', () => {
@@ -74,5 +75,23 @@ describe('Quran Service (Mock)', () => {
     expect(tafsir).toBeDefined();
     expect(tafsir?.ayat).toBe(2);
     expect(tafsir?.teks).toContain('Al-Qur‘an');
+  });
+
+  /* ------------------------- SEARCH ------------------------ */
+  it('should search ayat by Indonesian translation', async () => {
+    const results = await searchQuran('Segala puji');
+    expect(results.length).toBeGreaterThan(0);
+    expect(results[0].teksIndonesia).toContain('Segala puji');
+  });
+
+  it('should search ayat by Arabic text', async () => {
+    const results = await searchQuran('بِسْمِ', 'arab'); // ⬅️ tambahkan lang=arab
+    expect(results.length).toBeGreaterThan(0);
+    expect(results[0].teksArab).toContain('بِسْمِ');
+  });
+
+  it('should return empty array if query not found', async () => {
+    const results = await searchQuran('TidakAdaKataIni');
+    expect(results).toEqual([]);
   });
 });

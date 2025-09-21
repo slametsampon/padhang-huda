@@ -56,4 +56,17 @@ export class ApiAyatRepository implements AyatRepository {
     const all = await this.getBySurat(nomorSurat);
     return all.filter((a) => a.nomorAyat >= from && a.nomorAyat <= to);
   }
+
+  /** 🔍 API search endpoint */
+  async search(query: string, lang: string = 'id'): Promise<Ayat[]> {
+    const res = await fetch(
+      `${this.baseUrl}/search?query=${encodeURIComponent(query)}&lang=${lang}`
+    );
+    if (!res.ok)
+      throw new Error(
+        `[ApiAyatRepository] Gagal search ayat: ${res.statusText}`
+      );
+    const raw: { data: RawAyat[] } = await res.json();
+    return raw.data.map((a) => mapRawAyat(a, (a as any).nomorSurat ?? 0));
+  }
 }

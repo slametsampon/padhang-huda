@@ -48,4 +48,25 @@ export class MockAyatRepository implements AyatRepository {
     const ayatList = await this.getBySurat(nomorSurat);
     return ayatList.filter((a) => a.nomorAyat >= from && a.nomorAyat <= to);
   }
+
+  /** 🔍 Local search */
+  async search(query: string, lang: string = 'id'): Promise<Ayat[]> {
+    const allSuratNomor = Object.keys(this.cache).map(Number);
+    // Pastikan minimal Al-Fatihah sudah di-load
+    if (allSuratNomor.length === 0) {
+      await this.getBySurat(1);
+    }
+    const allAyat = Object.values(this.cache).flat();
+
+    return allAyat.filter((a) => {
+      if (lang === 'id') return a.teksIndonesia.includes(query);
+      if (lang === 'latin') return a.teksLatin.includes(query);
+      if (lang === 'arab') return a.teksArab.includes(query);
+      return (
+        a.teksIndonesia.includes(query) ||
+        a.teksLatin.includes(query) ||
+        a.teksArab.includes(query)
+      );
+    });
+  }
 }
